@@ -34,12 +34,14 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b) {
+Bolinha::Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical) {
     
     radius = _radius;
     x = _x;
     y = _y;
     r = _r; g = _g; b = _b;
+    horizontal = _horizontal;
+    vertical = _vertical;
 
 }
 
@@ -53,15 +55,38 @@ void Bolinha::Draw() {
 
 void Bolinha::Move() {
 
-    float horizontal = 1;
-    float vertical = 0;
-
-    // Para mover para onde ele está olhando (na direção theta)
+    // Move o personagem
     x += horizontal / 100;
     y += vertical / 100;
 
-    // Impede que o wilson saia da tela
+    // Impede que o personagem saia da tela
     x = x > 1 || x < -1 ? x*-1 : x;
     y = y > 1 || y < -1 ? y*-1 : y;
+
+}
+
+void Bolinha::Collide(vector<Bolinha>& players) {
+
+    for(int i=0; i<players.size(); i++) {
+
+        if( &(players[i]) != this ) {
+
+            float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
+
+            // Se estao colidindo
+            if( distance < radius + players[i].radius ) {
+
+                if( radius > players[i].radius ) {
+
+                    radius += players[i].radius;
+                    players.erase(players.begin() + i);
+
+                }
+
+            }
+
+        }
+        
+    }
 
 }

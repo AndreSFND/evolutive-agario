@@ -20,6 +20,7 @@
 #endif
 
 #include <iostream>
+#include <vector>
 #include "Bolinha.h"
 
 using namespace std;
@@ -30,8 +31,8 @@ using namespace std;
 #define windowPositionY 84
 
 void initialize();
-void draw(); // Função para desenhar
-void timer(int); // Função de loop
+void draw();
+void timer(int);
 
 /**
  *  TODO:
@@ -43,9 +44,11 @@ void timer(int); // Função de loop
  * 
 */
 
-Bolinha b1(0.1, 0, 0, 0, 0, 0.8);
+vector<Bolinha> players;
 
 int main(int argc, char** argv) {
+
+    initialize();
 
     // Initialize window
     glutInit(&argc, argv);
@@ -62,11 +65,23 @@ int main(int argc, char** argv) {
 
 }
 
+void initialize() {
+
+    Bolinha b1(0.1, -0.8, 0, 0, 0, 0.8, 1, 0);
+    Bolinha b2(0.15, 0.8, 0, 0, 0.8, 0, -1, 0);
+
+    players.push_back(b1);
+    players.push_back(b2);
+
+}
+
 void draw() {
     
     glClear(GL_COLOR_BUFFER_BIT);
 
-    b1.Draw();
+    for(int i=0; i<players.size(); i++) {
+        players[i].Draw();
+    }
 
     glutSwapBuffers();
 
@@ -74,7 +89,10 @@ void draw() {
 
 void timer(int) {
 
-    b1.Move();
+    for(int i=0; i<players.size(); i++) {
+        players[i].Move();
+        players[i].Collide(players);
+    }
 
     glutPostRedisplay();
     glutTimerFunc(1000/60, timer, 0); // 60Hz
