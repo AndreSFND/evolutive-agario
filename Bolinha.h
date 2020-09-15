@@ -21,20 +21,27 @@
     #endif
 
     #include <iostream>
+    #include <vector>
     #include <math.h>
+
+    using namespace std;
 
     class Bolinha {
 
         private:
+            float r,g,b;
+            float horizontal;
+            float vertical;
+
+        public:
             float radius;
             float x;
             float y;
-            float r,g,b;
 
-        public:
-            Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b);
+            Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical);
             void Draw();
             void Move();
+            void Collide(vector<Bolinha>& players);
 
     };
 
