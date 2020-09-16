@@ -34,11 +34,15 @@
             float vertical;
 
         public:
-            float radius;
             float x;
             float y;
+            float mass;
 
-            Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical);
+            Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical);
+
+            float Radius();
+            float Speed();
+
             void Draw();
             void Move();
             void Collide(vector<Bolinha>& players);

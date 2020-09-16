@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
 void initialize() {
 
     Bolinha b1(0.1, -0.8, 0, 0, 0, 0.8, 1, 0);
-    Bolinha b2(0.15, 0.8, 0, 0, 0.8, 0, -1, 0);
+    Bolinha b2(0.2, 0.8, 0, 0, 0.8, 0, -1, 0);
 
     players.push_back(b1);
     players.push_back(b2);

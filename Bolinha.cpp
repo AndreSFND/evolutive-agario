@@ -21,9 +21,9 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
 
-    for (int ii = 0; ii < num_segments; ii++) {
+    for (int i = 0; i < num_segments; i++) {
 
-        float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments); //get the current angle 
+        float theta = 2.0f * 3.1415926f * float(i) / float(num_segments); //get the current angle 
         float x = r * cosf(theta); //calculate the x component 
         float y = r * sinf(theta); //calculate the y component 
         glVertex2f(x + cx, y + cy); //output vertex 
@@ -34,9 +34,9 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical) {
+Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical) {
     
-    radius = _radius;
+    mass = _mass;
     x = _x;
     y = _y;
     r = _r; g = _g; b = _b;
@@ -45,10 +45,27 @@ Bolinha::Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b
 
 }
 
+float Bolinha::Radius() {
+
+    float pi = 2 * acos(0.0);
+    float radius = sqrt( mass / pi );
+
+    return radius;
+
+}
+
+float Bolinha::Speed() {
+
+    float speed = pow(Radius(), -0.439) * 2.2;
+
+    return speed;
+
+}
+
 void Bolinha::Draw() {
 
     glColor3f(r, g, b);
-    DrawCircle(x, y, radius, circleSegments);
+    DrawCircle(x, y, Radius(), circleSegments);
     glEnd();
 
 }
@@ -56,8 +73,8 @@ void Bolinha::Draw() {
 void Bolinha::Move() {
 
     // Move o personagem
-    x += horizontal / 100;
-    y += vertical / 100;
+    x += horizontal * Speed() / 500;
+    y += vertical * Speed() / 500;
 
     // Impede que o personagem saia da tela
     x = x > 1 || x < -1 ? x*-1 : x;
@@ -74,11 +91,11 @@ void Bolinha::Collide(vector<Bolinha>& players) {
             float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
             // Se estao colidindo
-            if( distance < radius + players[i].radius ) {
+            if( distance < Radius() + players[i].Radius() ) {
 
-                if( radius > players[i].radius ) {
+                if( mass > players[i].mass ) {
 
-                    radius += players[i].radius;
+                    mass += players[i].mass;
                     players.erase(players.begin() + i);
 
                 }
