@@ -33,6 +33,7 @@
             float r,g,b;
             float horizontal;
             float vertical;
+            Comida *closestFood;
 
         public:
             float x;
@@ -48,6 +49,9 @@
             void Move();
             void Collide(vector<Bolinha>& players);
             void Collide(vector<Comida>& comidas);
+
+            float DistanceToClosestFood();
+            float AngleToClosestFood();
 
     };
 

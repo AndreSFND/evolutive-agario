@@ -37,6 +37,9 @@ void timer(int);
 
 /**
  *  TODO:
+ *      Cruzamento in game
+ *          - Duas bolinhas cruzam na hora
+ *  
  *      Variaveis a serem adicionadas (distribuir pontos entre elas):
  *          - Velocidade
  *          - Taxa de conversao de comida em massa
@@ -118,9 +121,9 @@ void timer(int) {
 
     for(int i=0; i<players.size(); i++) {
     
-        players[i].Move();
         players[i].Collide(players);
         players[i].Collide(comidas);
+        players[i].Move();
     
     }
 
