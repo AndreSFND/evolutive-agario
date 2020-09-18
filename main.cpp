@@ -61,6 +61,7 @@ void timer(int);
 
 vector<Comida> comidas;
 vector<Bolinha> players;
+int ticks = 0;
 
 int main(int argc, char** argv) {
 
@@ -97,6 +98,13 @@ void initialize() {
 
 }
 
+void destroy() {
+
+    players.clear();
+    comidas.clear();
+
+}
+
 void draw() {
     
     glClear(GL_COLOR_BUFFER_BIT);
@@ -125,6 +133,21 @@ void timer(int) {
         players[i].Collide(comidas);
         players[i].Move();
     
+    }
+
+    ticks++;
+
+    if(ticks > 500) {
+
+        ticks = 0;
+
+        destroy();
+
+        initialize();
+        glutTimerFunc(0, timer, 0);
+        
+        return;
+
     }
 
     glutPostRedisplay();
