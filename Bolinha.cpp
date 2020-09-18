@@ -13,7 +13,8 @@
 */
 
 #include "Bolinha.h"
-#define circleSegments 8
+#define CIRCLE_SEGMENTS 8
+#define PI 3.1415
 
 using namespace std;
 
@@ -21,9 +22,9 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
 
-    for (int ii = 0; ii < num_segments; ii++) {
+    for (int i = 0; i < num_segments; i++) {
 
-        float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments); //get the current angle 
+        float theta = 2.0f * PI * float(i) / float(num_segments); //get the current angle 
         float x = r * cosf(theta); //calculate the x component 
         float y = r * sinf(theta); //calculate the y component 
         glVertex2f(x + cx, y + cy); //output vertex 
@@ -34,30 +35,92 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(float _radius, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical) {
+Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players) {
     
-    radius = _radius;
+    mass = _mass;
     x = _x;
     y = _y;
     r = _r; g = _g; b = _b;
     horizontal = _horizontal;
     vertical = _vertical;
 
+    players.push_back(*this);
+
+}
+
+float Bolinha::Radius() {
+
+    float radius = sqrt( mass / PI );
+
+    return radius;
+
+}
+
+float Bolinha::Speed() {
+
+    float speed = pow(Radius(), -0.439) * 2.2;
+
+    return speed;
+
 }
 
 void Bolinha::Draw() {
 
     glColor3f(r, g, b);
-    DrawCircle(x, y, radius, circleSegments);
+    DrawCircle(x, y, Radius(), CIRCLE_SEGMENTS);
     glEnd();
 
 }
 
 void Bolinha::Move() {
 
+    float angle = AngleToClosestFood();
+
+    if( angle == 0 ) {
+
+        horizontal = 1;
+        vertical = 0;
+
+    } else if( angle > 0 && angle < 90 ) {
+
+        horizontal = 1;
+        vertical = 1;
+
+    } else if( angle == 90 ) {
+
+        horizontal = 0;
+        vertical = 1;
+
+    } else if( angle > 90 && angle < 180 ) {
+
+        horizontal = -1;
+        vertical = 1;
+
+    } else if( angle == 180 ) {
+
+        horizontal = -1;
+        vertical = 0;
+
+    } else if( angle > 180 && angle < 270 ) {
+
+        horizontal = -1;
+        vertical = -1;
+
+    } else if( angle == 270 ) {
+
+        horizontal = 0;
+        vertical = -1;
+
+    }  else if( angle > 270 && angle < 360 ) {
+
+        horizontal = 1;
+        vertical = -1;
+
+    } 
+
     // Move o personagem
-    x += horizontal / 100;
-    y += vertical / 100;
+    x += horizontal * Speed() / 500;
+    y += vertical * Speed() / 500;
 
     // Impede que o personagem saia da tela
     x = x > 1 || x < -1 ? x*-1 : x;
@@ -74,11 +137,11 @@ void Bolinha::Collide(vector<Bolinha>& players) {
             float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
             // Se estao colidindo
-            if( distance < radius + players[i].radius ) {
+            if( (distance*2) < Radius() + players[i].Radius() ) {
 
-                if( radius > players[i].radius ) {
+                if( mass > players[i].mass ) {
 
-                    radius += players[i].radius;
+                    mass += players[i].mass;
                     players.erase(players.begin() + i);
 
                 }
@@ -88,5 +151,55 @@ void Bolinha::Collide(vector<Bolinha>& players) {
         }
         
     }
+
+}
+
+void Bolinha::Collide(vector<Comida>& comidas) {
+
+    closestFood = &comidas[0];
+    float currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+
+    for(int i=0; i<comidas.size(); i++) {
+
+        float distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
+
+        if( distance < currentDistance ) {
+
+            closestFood = &comidas[i];
+            currentDistance = distance;
+
+        }
+
+        // Se estao colidindo
+        if( distance < Radius() + comidas[i].Radius() ) {
+
+            mass += comidas[i].mass;
+            comidas.erase(comidas.begin() + i);
+
+        }
+        
+    }
+
+}
+
+float Bolinha::DistanceToClosestFood() {
+
+    float currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+
+    return currentDistance;
+
+}
+
+float Bolinha::AngleToClosestFood() {
+
+    float dx = (*closestFood).x - x;
+    float dy = (*closestFood).y - y;
+
+    float inRads = atan2(dy, dx);
+    float angle = inRads * 180.0 / PI;
+
+    if(angle < 0) angle += 360;
+
+    return angle;
 
 }

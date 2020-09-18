@@ -2,7 +2,7 @@
  * USP Sao Carlos, ICMC
  * Agario Evolutivo
  * 
- * Classe dos personagens, que sao capazes de se mover e absorver outros personagens e comidas
+ * Classe da comida
  * 
  * @author Andre Santana Fernandes <11208537>
  * @author Diogo Castanho Emídio <11297274>
@@ -11,8 +11,8 @@
  * @author Olavo Morais Borges Pereira <11297792>
  * 
 */
-#ifndef BOLINHA_H
-#define BOLINHA_H
+#ifndef COMIDA_H
+#define COMIDA_H
 
     #ifdef __APPLE__
         #include <GLUT/glut.h>
@@ -23,35 +23,24 @@
     #include <iostream>
     #include <vector>
     #include <math.h>
-    #include "Comida.h"
 
     using namespace std;
 
-    class Bolinha {
+    class Comida {
 
         private:
             float r,g,b;
-            float horizontal;
-            float vertical;
-            Comida *closestFood;
 
         public:
             float x;
             float y;
             float mass;
 
-            Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players);
+            Comida(float _x, float _y, float _r, float _g, float _b, vector<Comida>& comidas);
 
             float Radius();
-            float Speed();
 
             void Draw();
-            void Move();
-            void Collide(vector<Bolinha>& players);
-            void Collide(vector<Comida>& comidas);
-
-            float DistanceToClosestFood();
-            float AngleToClosestFood();
 
     };
 

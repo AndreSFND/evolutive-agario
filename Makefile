@@ -5,8 +5,11 @@ all: build
 run: build
 	./main
 
-build: Bolinha.o main.o
-	@g++ -o main Bolinha.o main.o $(flags)
+build: Comida.o Bolinha.o main.o
+	@g++ -o main Comida.o Bolinha.o main.o $(flags)
+
+Comida.o: Comida.h Comida.cpp
+	@g++ -c Comida.h Comida.cpp
 
 Bolinha.o: Bolinha.h Bolinha.cpp
 	@g++ -c Bolinha.h Bolinha.cpp
