@@ -13,7 +13,7 @@
 */
 
 #include "Bolinha.h"
-#define circleSegments 8
+#define CIRCLE_SEGMENTS 8
 
 using namespace std;
 
@@ -34,7 +34,7 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical) {
+Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players) {
     
     mass = _mass;
     x = _x;
@@ -42,6 +42,8 @@ Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, 
     r = _r; g = _g; b = _b;
     horizontal = _horizontal;
     vertical = _vertical;
+
+    players.push_back(*this);
 
 }
 
@@ -65,7 +67,7 @@ float Bolinha::Speed() {
 void Bolinha::Draw() {
 
     glColor3f(r, g, b);
-    DrawCircle(x, y, Radius(), circleSegments);
+    DrawCircle(x, y, Radius(), CIRCLE_SEGMENTS);
     glEnd();
 
 }
@@ -91,7 +93,7 @@ void Bolinha::Collide(vector<Bolinha>& players) {
             float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
             // Se estao colidindo
-            if( distance < Radius() + players[i].Radius() ) {
+            if( (distance*2) < Radius() + players[i].Radius() ) {
 
                 if( mass > players[i].mass ) {
 
@@ -101,6 +103,24 @@ void Bolinha::Collide(vector<Bolinha>& players) {
                 }
 
             }
+
+        }
+        
+    }
+
+}
+
+void Bolinha::Collide(vector<Comida>& comidas) {
+
+    for(int i=0; i<comidas.size(); i++) {
+
+        float distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
+
+        // Se estao colidindo
+        if( distance < Radius() + comidas[i].Radius() ) {
+
+            mass += comidas[i].mass;
+            comidas.erase(comidas.begin() + i);
 
         }
         

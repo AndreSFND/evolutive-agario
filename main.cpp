@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Comida.h"
 #include "Bolinha.h"
 
 using namespace std;
@@ -42,8 +43,20 @@ void timer(int);
  *              blob.r = math.sqrt(blob.mass / math.pi)
  *          - 
  * 
+ *      Variaveis input rede neural:
+ *          - Massa do personagem
+ *          - Velocidade do personagem
+ *          - Distancia do inimigo mais proximo
+ *          - Angulo entre personagem e inimigo mais proximo
+ *          - Massa do inimigo mais proximo
+ *          - Velocidade do inimigo mais proximo
+ * 
+ *          - Distancia da comida mais proxima
+ *          - Angulo entre personagem e comida mais proxima
+ * 
 */
 
+vector<Comida> comidas;
 vector<Bolinha> players;
 
 int main(int argc, char** argv) {
@@ -67,11 +80,17 @@ int main(int argc, char** argv) {
 
 void initialize() {
 
-    Bolinha b1(0.1, -0.8, 0, 0, 0, 0.8, 1, 0);
-    Bolinha b2(0.2, 0.8, 0, 0, 0.8, 0, -1, 0);
+    new Bolinha(0.01, -0.8, 0, 0, 0, 0.8, 1, 0, players);
+    new Bolinha(0.02, 0.8, 0, 0, 0.8, 0, 0, 1, players);
 
-    players.push_back(b1);
-    players.push_back(b2);
+    for(int i=0; i<40; i++) {
+
+        float x = ((rand() % 200) / 100.0) - 1;
+        float y = ((rand() % 200) / 100.0) - 1;
+
+        new Comida(x, y, 0.8, 0, 0.8, comidas);
+
+    }
 
 }
 
@@ -79,8 +98,16 @@ void draw() {
     
     glClear(GL_COLOR_BUFFER_BIT);
 
+    for(int i=0; i<comidas.size(); i++) {
+    
+        comidas[i].Draw();
+    
+    }
+
     for(int i=0; i<players.size(); i++) {
+    
         players[i].Draw();
+    
     }
 
     glutSwapBuffers();
@@ -90,8 +117,11 @@ void draw() {
 void timer(int) {
 
     for(int i=0; i<players.size(); i++) {
+    
         players[i].Move();
         players[i].Collide(players);
+        players[i].Collide(comidas);
+    
     }
 
     glutPostRedisplay();
