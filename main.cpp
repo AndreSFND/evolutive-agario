@@ -47,13 +47,11 @@ void timer(int);
  *          - 
  * 
  *      Variaveis input rede neural:
- *          - Massa do personagem
- *          - Velocidade do personagem
  *          - Distancia do inimigo mais proximo
  *          - Angulo entre personagem e inimigo mais proximo
  *          - Massa do inimigo mais proximo
- *          - Velocidade do inimigo mais proximo
  * 
+ *          - Massa do personagem
  *          - Distancia da comida mais proxima
  *          - Angulo entre personagem e comida mais proxima
  * 
