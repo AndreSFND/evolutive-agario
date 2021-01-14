@@ -30,6 +30,10 @@ using namespace std;
 #define windowHeight 600
 #define windowPositionX 383
 #define windowPositionY 84
+#define fps 60
+
+#define nPlayers 10
+#define timeLimit 500
 
 void initialize();
 void draw();
@@ -43,23 +47,94 @@ void timer(int);
  *      Variaveis a serem adicionadas (distribuir pontos entre elas):
  *          - Velocidade
  *          - Taxa de conversao de comida em massa
- *              blob.r = math.sqrt(blob.mass / math.pi)
- *          - 
  * 
  *      Variaveis input rede neural:
  *          - Distancia do inimigo mais proximo
  *          - Angulo entre personagem e inimigo mais proximo
  *          - Massa do inimigo mais proximo
- * 
  *          - Massa do personagem
  *          - Distancia da comida mais proxima
  *          - Angulo entre personagem e comida mais proxima
+ * 
+ *      Elitismo:
+ *          - Quem ganha cruza com todo mundo; os filhos substituem todos, menos ele
+ * 
+ *      Torneio de 2:
+ *          - 
+ * 
+ *      Se acaba o tempo:
+ *          -Faz suruba com até 3 vencedores
+ * 
+ *          Bolinhas restantes (quando acaba o tempo) = números de pais = 3;
+ *          Vencedor = 1 (sempre) = a;
+ *          Filhos = (0,25 * a + 0,25 * b + 0,5 * aleatório) / 3,  (0,25 * a + 0,25 * c + 0,5 * aleatório) / 3, ..., (0,25 * a + 0,25 * n + 0,5 * aleatório) / 3
+ *      
+ *      Senao:
+ *          -Roda o elitismo
+ *          
  * 
 */
 
 vector<Comida> comidas;
 vector<Bolinha> players;
+vector<Bolinha> winners;
 int ticks = 0;
+
+
+// Roda ao iniciar a partida
+void initialize() {
+
+    for(int i=0; i<nPlayers; i++) {
+
+        if( winners.size() <= 0 ) {
+
+            new Bolinha(0.01, -0.2 * i, -0.2 * i, 0, 0, 0.8, 1, 0, players);
+
+        } else { // Se existem vencedores da ultima partida, faz o cruzamento
+            
+            new Bolinha(0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+
+        }
+
+    }
+
+    for(int i=0; i<nPlayers*10; i++) {
+
+        float x = ((rand() % 200) / 100.0) - 1;
+        float y = ((rand() % 200) / 100.0) - 1;
+
+        new Comida(x, y, 0.8, 0, 0.8, comidas);
+
+    }
+
+    winners.clear();
+
+}
+
+// Roda ao acabar a partida
+void destroy() {
+
+    int playersLength = players.size();
+    float maxMass = 0;
+    Bolinha *winner;
+
+    for(int i=0; i<playersLength; i++) {
+
+        if( players[i].Mass() > maxMass ) {
+
+            winner = &players[i];
+            maxMass = players[i].Mass();
+
+        }
+
+    }
+
+    winners.push_back(*winner);
+
+    players.clear();
+    comidas.clear();
+
+}
 
 int main(int argc, char** argv) {
 
@@ -77,29 +152,6 @@ int main(int argc, char** argv) {
     glutMainLoop();
 
     return 0;
-
-}
-
-void initialize() {
-
-    new Bolinha(0.01, -0.8, 0, 0, 0, 0.8, 1, 0, players);
-    new Bolinha(0.02, 0.8, 0, 0, 0.8, 0, 0, 1, players);
-
-    for(int i=0; i<40; i++) {
-
-        float x = ((rand() % 200) / 100.0) - 1;
-        float y = ((rand() % 200) / 100.0) - 1;
-
-        new Comida(x, y, 0.8, 0, 0.8, comidas);
-
-    }
-
-}
-
-void destroy() {
-
-    players.clear();
-    comidas.clear();
 
 }
 
@@ -135,7 +187,7 @@ void timer(int) {
 
     ticks++;
 
-    if(ticks > 500) {
+    if( ticks > timeLimit || players.size() < 2 ) {
 
         ticks = 0;
 
@@ -149,6 +201,6 @@ void timer(int) {
     }
 
     glutPostRedisplay();
-    glutTimerFunc(1000/60, timer, 0); // 60Hz
+    glutTimerFunc(1000/fps, timer, 0); // 60Hz
 
 }
