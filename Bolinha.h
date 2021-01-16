@@ -24,6 +24,7 @@
     #include <vector>
     #include <math.h>
     #include "Comida.h"
+    #include "RedeNeural.h"
 
     using namespace std;
 
@@ -35,13 +36,14 @@
             float vertical;
             Comida *closestFood;
             Bolinha *closestEnemy;
+            RedeNeural *redeNeural;
 
         public:
             float x;
             float y;
             float mass;
 
-            Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players);
+            Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players);
 
             float Mass();
             float Radius();

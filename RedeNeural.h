@@ -15,8 +15,8 @@ using namespace std;
 #define MAX_AXON 1
 #define ESCOPO_DECIMAL_AXON 100
 
-#define N_INPUTS 2
-#define N_NEURONS 2
+#define N_INPUTS 6
+#define N_NEURONS 4
 #define N_OUTPUTS 2
 
 class RedeNeural {

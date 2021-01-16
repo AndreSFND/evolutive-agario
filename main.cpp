@@ -23,7 +23,6 @@
 #include <vector>
 #include "Comida.h"
 #include "Bolinha.h"
-#include "RedeNeural.h"
 
 using namespace std;
 
@@ -87,13 +86,41 @@ void initialize() {
 
     for(int i=0; i<nPlayers; i++) {
 
+        srand( (unsigned)time(NULL) );
+
         if( winners.size() <= 0 ) {
 
-            new Bolinha(0.01, -0.2 * i, -0.2 * i, 0, 0, 0.8, 1, 0, players);
+            double axonsIn[N_INPUTS][N_NEURONS];
+			double axonsOut[N_NEURONS][N_OUTPUTS];
+
+            for( int i=0; i<N_INPUTS; i++ ) {
+
+                for( int j=0; j<N_NEURONS; j++ ) {
+
+                    axonsIn[i][j] = 0;
+
+                }
+
+            }
+
+            for( int i=0; i<N_NEURONS; i++ ) {
+
+                for( int j=0; j<N_OUTPUTS; j++ ) {
+
+                    axonsOut[i][j] = 0;
+
+                }
+
+            }
+
+            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0, 0, 0.8, 1, 0, players);
 
         } else { // Se existem vencedores da ultima partida, faz o cruzamento
+
+            // double axonsIn[N_INPUTS][N_NEURONS];
+			// double axonsOut[N_NEURONS][N_OUTPUTS];
             
-            new Bolinha(0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+            // new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
 
         }
 
@@ -188,7 +215,7 @@ void timer(int) {
 
     ticks++;
 
-    if( ticks > timeLimit || players.size() < 2 ) {
+    if( ticks > timeLimit ) {
 
         ticks = 0;
 

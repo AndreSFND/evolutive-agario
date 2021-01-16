@@ -35,7 +35,7 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players) {
+Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players) {
     
     mass = _mass;
     x = _x;
@@ -46,6 +46,14 @@ Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, 
 
     closestFood = NULL;
     closestEnemy = NULL;
+
+    double _inputs[] = {0, 0, 0, 0, 0, 0};
+	double _biasNeuron = 0;
+	double _biasOutput = 0;
+
+    redeNeural = new RedeNeural(_inputs, _biasNeuron, _biasOutput);
+    redeNeural->setAxonsIn(_axonsIn);
+    redeNeural->setAxonsOut(_axonsOut);
 
     players.push_back(*this);
 
@@ -83,54 +91,61 @@ void Bolinha::Draw() {
 
 void Bolinha::Move() {
 
-    float angle = AngleToClosestFood();
+    double _inputs[] = { DistanceToClosestEnemy(), AngleToClosestEnemy(), ClosestEnemyMass(), Mass(), DistanceToClosestFood(), AngleToClosestFood() };  
+    redeNeural->setInput(_inputs);
+    redeNeural->feedForward();
 
-    if( angle == 0 ) {
+    double *_outputs = redeNeural->getOutput();
 
-        horizontal = 1;
-        vertical = 0;
+    horizontal = (_outputs[0] * 2) - 1;
+    vertical = (_outputs[1] * 2) - 1;
 
-    } else if( angle > 0 && angle < 90 ) {
+    // if( angle == 0 ) {
 
-        horizontal = 1;
-        vertical = 1;
+    //     horizontal = 1;
+    //     vertical = 0;
 
-    } else if( angle == 90 ) {
+    // } else if( angle > 0 && angle < 90 ) {
 
-        horizontal = 0;
-        vertical = 1;
+    //     horizontal = 1;
+    //     vertical = 1;
 
-    } else if( angle > 90 && angle < 180 ) {
+    // } else if( angle == 90 ) {
 
-        horizontal = -1;
-        vertical = 1;
+    //     horizontal = 0;
+    //     vertical = 1;
 
-    } else if( angle == 180 ) {
+    // } else if( angle > 90 && angle < 180 ) {
 
-        horizontal = -1;
-        vertical = 0;
+    //     horizontal = -1;
+    //     vertical = 1;
 
-    } else if( angle > 180 && angle < 270 ) {
+    // } else if( angle == 180 ) {
 
-        horizontal = -1;
-        vertical = -1;
+    //     horizontal = -1;
+    //     vertical = 0;
 
-    } else if( angle == 270 ) {
+    // } else if( angle > 180 && angle < 270 ) {
 
-        horizontal = 0;
-        vertical = -1;
+    //     horizontal = -1;
+    //     vertical = -1;
 
-    }  else if( angle > 270 && angle < 360 ) {
+    // } else if( angle == 270 ) {
 
-        horizontal = 1;
-        vertical = -1;
+    //     horizontal = 0;
+    //     vertical = -1;
 
-    } else {
+    // }  else if( angle > 270 && angle < 360 ) {
 
-        horizontal = 0;
-        vertical = 0;
+    //     horizontal = 1;
+    //     vertical = -1;
 
-    }
+    // } else {
+
+    //     horizontal = 0;
+    //     vertical = 0;
+
+    // }
 
     // Move o personagem
     x += horizontal * Speed() / 500;
@@ -145,7 +160,6 @@ void Bolinha::Move() {
 void Bolinha::Collide(vector<Bolinha>& players) {
 
     int playersLength = players.size();
-
     float currentDistance = 0;
 
     if( playersLength > 0 ) {
@@ -156,7 +170,12 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
                 float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
-                if( distance < currentDistance ) {
+                if( currentDistance == 0 ) {
+
+                    closestEnemy = &players[i];
+                    currentDistance = distance;
+
+                } else if( distance < currentDistance ) {
 
                     closestEnemy = &players[i];
                     currentDistance = distance;
