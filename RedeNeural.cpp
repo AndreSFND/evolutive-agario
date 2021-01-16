@@ -164,14 +164,16 @@ double RedeNeural::sigmoid(double x) // Funcao sigmoid foi usada para o caminho 
 
 void RedeNeural::activatingFunction(double source[], int size) // Funcao de ativacao para ativar qualquer vetor de double que receber, usando sigmoid
 {
-	// printf("\n");
+
+	//printf("\n");
 	for(int i = 0; i < size; i++)
 	{
-		// printf("SIGMOID: Source[%d] era %.2f... ", i, source[i]);
+		//printf("SIGMOID: Source[%d] era %.2f... ", i, source[i]);
 		source[i] = sigmoid(source[i]);
-		// printf("depois da sigmoid ficou %.2f\n\n", source[i]);
+		//printf("depois da sigmoid ficou %.2f\n\n", source[i]);
 	}
 	//printf("\n\tSource sigmoid completa\n");
+
 }
 
 double RedeNeural::feedForward() // O processo de feedForward, populando os neuronios e os outputs com os calculos vistos
@@ -196,17 +198,17 @@ double RedeNeural::feedForward() // O processo de feedForward, populando os neur
 	activatingFunction(neuron, N_NEURONS);
 	
 	// Calculo do valor dos neuronios conforme visto aos 13:58 de https://www.youtube.com/watch?v=d8U7ygZ48Sc
-	// printf("\n\n\tFF DE OUTPUTS\n");
+	//printf("\n\n\tFF DE OUTPUTS\n");
 	for(int i = 0; i < N_OUTPUTS; i++) // A cada neuronio, faca...
 	{
 		for(int j = 0; j < N_NEURONS; j++) // A cada output, faca
 		{
-			// printf("\nOUTPUT[%d]: Adicionando [ neuron[%d] * axons.axonsOut[%d][%d] >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, neuron[j], axons.axonsOut[j][i], neuron[j]*axons.axonsOut[j][i]);
+			//printf("\nOUTPUT[%d]: Adicionando [ neuron[%d] * axons.axonsOut[%d][%d] >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, neuron[j], axons.axonsOut[j][i], neuron[j]*axons.axonsOut[j][i]);
 			output[i] += neuron[j] * axons.axonsOut[j][i];
-			// printf("%.2f\n", output[i]);
+			//printf("%.2f\n", output[i]);
 		}
 		output[i] += biasOutput;
-		// printf("\nCom bias final de %.2f, totalizando %.2f (output[%d])\n\n", biasOutput, output[i], i);
+		//printf("\nCom bias final de %.2f, totalizando %.2f (output[%d])\n\n", biasOutput, output[i], i);
 	}
 	// Para os outputs na situacao com 2 neurons e 2 outputs, 4 axonsOut, temos que...
 	// output[0] = neuron[0] * axons.axonsOut[0][0] + neuron[1] * axons.axonsOut[1][0]

@@ -29,16 +29,16 @@
     class Comida {
 
         private:
-            float r,g,b;
+            double r,g,b;
 
         public:
-            float x;
-            float y;
-            float mass;
+            double x;
+            double y;
+            double mass;
 
-            Comida(float _x, float _y, float _r, float _g, float _b, vector<Comida>& comidas);
+            Comida(double _x, double _y, double _r, double _g, double _b, vector<Comida>& comidas);
 
-            float Radius();
+            double Radius();
 
             void Draw();
 

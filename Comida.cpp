@@ -18,15 +18,15 @@
 
 using namespace std;
 
-void DrawCircle_(float cx, float cy, float r, int num_segments) {
+void DrawCircle_(double cx, double cy, double r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
 
     for (int i = 0; i < num_segments; i++) {
 
-        float theta = 2.0f * 3.1415926f * float(i) / float(num_segments); //get the current angle 
-        float x = r * cosf(theta); //calculate the x component 
-        float y = r * sinf(theta); //calculate the y component 
+        double theta = 2.0f * 3.1415926f * double(i) / double(num_segments); //get the current angle 
+        double x = r * cosf(theta); //calculate the x component 
+        double y = r * sinf(theta); //calculate the y component 
         glVertex2f(x + cx, y + cy); //output vertex 
 
     }
@@ -35,7 +35,7 @@ void DrawCircle_(float cx, float cy, float r, int num_segments) {
 
 }
 
-Comida::Comida(float _x, float _y, float _r, float _g, float _b, vector<Comida>& comidas) {
+Comida::Comida(double _x, double _y, double _r, double _g, double _b, vector<Comida>& comidas) {
     
     mass = MASS;
     x = _x;
@@ -46,10 +46,10 @@ Comida::Comida(float _x, float _y, float _r, float _g, float _b, vector<Comida>&
 
 }
 
-float Comida::Radius() {
+double Comida::Radius() {
 
-    float pi = 2 * acos(0.0);
-    float radius = sqrt( mass / pi );
+    double pi = 2 * acos(0.0);
+    double radius = sqrt( mass / pi );
 
     return radius;
 

@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <vector>
+#include <time.h>
 #include "Comida.h"
 #include "Bolinha.h"
 
@@ -80,13 +81,18 @@ vector<Bolinha> players;
 vector<Bolinha> winners;
 int ticks = 0;
 
+double fRand(double fMin, double fMax)
+{
+    double f = (double)rand() / RAND_MAX;
+    return fMin + f * (fMax - fMin);
+}
 
 // Roda ao iniciar a partida
 void initialize() {
 
-    for(int i=0; i<nPlayers; i++) {
+    srand( time(NULL) );
 
-        srand( (unsigned)time(NULL) );
+    for(int i=0; i<nPlayers; i++) {
 
         if( winners.size() <= 0 ) {
 
@@ -97,7 +103,7 @@ void initialize() {
 
                 for( int j=0; j<N_NEURONS; j++ ) {
 
-                    axonsIn[i][j] = 0;
+                    axonsIn[i][j] = fRand(MIN_AXON, MAX_AXON);
 
                 }
 
@@ -107,20 +113,40 @@ void initialize() {
 
                 for( int j=0; j<N_OUTPUTS; j++ ) {
 
-                    axonsOut[i][j] = 0;
+                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
+
+                }
+
+            }
+            
+            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+
+        } else { // Se existem vencedores da ultima partida, faz o cruzamento
+
+            double axonsIn[N_INPUTS][N_NEURONS];
+			double axonsOut[N_NEURONS][N_OUTPUTS];
+
+            for( int i=0; i<N_INPUTS; i++ ) {
+
+                for( int j=0; j<N_NEURONS; j++ ) {
+
+                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
 
                 }
 
             }
 
-            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0, 0, 0.8, 1, 0, players);
+            for( int i=0; i<N_NEURONS; i++ ) {
 
-        } else { // Se existem vencedores da ultima partida, faz o cruzamento
+                for( int j=0; j<N_OUTPUTS; j++ ) {
 
-            // double axonsIn[N_INPUTS][N_NEURONS];
-			// double axonsOut[N_NEURONS][N_OUTPUTS];
+                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
+
+                }
+
+            }
             
-            // new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
 
         }
 
@@ -128,8 +154,8 @@ void initialize() {
 
     for(int i=0; i<nPlayers*10; i++) {
 
-        float x = ((rand() % 200) / 100.0) - 1;
-        float y = ((rand() % 200) / 100.0) - 1;
+        double x = ((rand() % 200) / 100.0) - 1;
+        double y = ((rand() % 200) / 100.0) - 1;
 
         new Comida(x, y, 0.8, 0, 0.8, comidas);
 
@@ -143,7 +169,7 @@ void initialize() {
 void destroy() {
 
     int playersLength = players.size();
-    float maxMass = 0;
+    double maxMass = 0;
     Bolinha *winner;
 
     for(int i=0; i<playersLength; i++) {

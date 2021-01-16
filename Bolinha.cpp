@@ -18,15 +18,15 @@
 
 using namespace std;
 
-void DrawCircle(float cx, float cy, float r, int num_segments) {
+void DrawCircle(double cx, double cy, double r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
 
     for (int i = 0; i < num_segments; i++) {
 
-        float theta = 2.0f * PI * float(i) / float(num_segments); //get the current angle 
-        float x = r * cosf(theta); //calculate the x component 
-        float y = r * sinf(theta); //calculate the y component 
+        double theta = 2.0f * PI * double(i) / double(num_segments); //get the current angle 
+        double x = r * cosf(theta); //calculate the x component 
+        double y = r * sinf(theta); //calculate the y component 
         glVertex2f(x + cx, y + cy); //output vertex 
 
     }
@@ -35,7 +35,7 @@ void DrawCircle(float cx, float cy, float r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players) {
+Bolinha::Bolinha(double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players) {
     
     mass = _mass;
     x = _x;
@@ -52,6 +52,27 @@ Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], fl
 	double _biasOutput = 0;
 
     redeNeural = new RedeNeural(_inputs, _biasNeuron, _biasOutput);
+    players.push_back(*this);
+
+}
+
+Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players) {
+    
+    mass = _mass;
+    x = _x;
+    y = _y;
+    r = _r; g = _g; b = _b;
+    horizontal = _horizontal;
+    vertical = _vertical;
+
+    closestFood = NULL;
+    closestEnemy = NULL;
+
+    double _inputs[] = {0, 0, 0, 0, 0, 0};
+	double _biasNeuron = 0;
+	double _biasOutput = -0;
+
+    redeNeural = new RedeNeural(_inputs, _biasNeuron, _biasOutput);
     redeNeural->setAxonsIn(_axonsIn);
     redeNeural->setAxonsOut(_axonsOut);
 
@@ -59,23 +80,23 @@ Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], fl
 
 }
 
-float Bolinha::Mass() {
+double Bolinha::Mass() {
 
     return mass;
 
 }
 
-float Bolinha::Radius() {
+double Bolinha::Radius() {
 
-    float radius = sqrt( mass / PI );
+    double radius = sqrt( mass / PI );
 
     return radius;
 
 }
 
-float Bolinha::Speed() {
+double Bolinha::Speed() {
 
-    float speed = pow(Radius(), -0.439) * 2.2;
+    double speed = pow(Radius(), -0.439) * 2.2;
 
     return speed;
 
@@ -91,14 +112,14 @@ void Bolinha::Draw() {
 
 void Bolinha::Move() {
 
-    double _inputs[] = { DistanceToClosestEnemy(), AngleToClosestEnemy(), ClosestEnemyMass(), Mass(), DistanceToClosestFood(), AngleToClosestFood() };  
+    double _inputs[] = { DistanceToClosestEnemy(), AngleToClosestEnemy() / 180, ClosestEnemyMass(), Mass(), DistanceToClosestFood(), AngleToClosestFood() / 180 };  
     redeNeural->setInput(_inputs);
     redeNeural->feedForward();
 
     double *_outputs = redeNeural->getOutput();
 
-    horizontal = (_outputs[0] * 2) - 1;
-    vertical = (_outputs[1] * 2) - 1;
+    horizontal = ( _outputs[0] * 2 ) - 1;
+    vertical = ( _outputs[1] * 2 ) - 1;
 
     // if( angle == 0 ) {
 
@@ -160,7 +181,7 @@ void Bolinha::Move() {
 void Bolinha::Collide(vector<Bolinha>& players) {
 
     int playersLength = players.size();
-    float currentDistance = 0;
+    double currentDistance = 0;
 
     if( playersLength > 0 ) {
 
@@ -168,7 +189,7 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
             if( &(players[i]) != this ) {
 
-                float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
+                double distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
                 if( currentDistance == 0 ) {
 
@@ -209,7 +230,7 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 void Bolinha::Collide(vector<Comida>& comidas) {
 
     closestFood = &comidas[0];
-    float currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+    double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
 
     int comidasLength = comidas.size();
 
@@ -217,7 +238,7 @@ void Bolinha::Collide(vector<Comida>& comidas) {
 
         for(int i=0; i<comidasLength; i++) {
 
-            float distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
+            double distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
 
             if( distance < currentDistance ) {
 
@@ -244,23 +265,23 @@ void Bolinha::Collide(vector<Comida>& comidas) {
 
 }
 
-float Bolinha::DistanceToClosestFood() {
+double Bolinha::DistanceToClosestFood() {
 
-    float currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+    double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
 
     return currentDistance;
 
 }
 
-float Bolinha::AngleToClosestFood() {
+double Bolinha::AngleToClosestFood() {
 
     if( closestFood != NULL ) {
 
-        float dx = (*closestFood).x - x;
-        float dy = (*closestFood).y - y;
+        double dx = (*closestFood).x - x;
+        double dy = (*closestFood).y - y;
 
-        float inRads = atan2(dy, dx);
-        float angle = inRads * 180.0 / PI;
+        double inRads = atan2(dy, dx);
+        double angle = inRads * 180.0 / PI;
 
         if(angle < 0) angle += 360;
 
@@ -274,23 +295,23 @@ float Bolinha::AngleToClosestFood() {
 
 }
 
-float Bolinha::DistanceToClosestEnemy() {
+double Bolinha::DistanceToClosestEnemy() {
 
-    float currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
+    double currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
 
     return currentDistance;
 
 }
 
-float Bolinha::AngleToClosestEnemy() {
+double Bolinha::AngleToClosestEnemy() {
 
     if( closestEnemy != NULL ) {
 
-        float dx = (*closestEnemy).x - x;
-        float dy = (*closestEnemy).y - y;
+        double dx = (*closestEnemy).x - x;
+        double dy = (*closestEnemy).y - y;
 
-        float inRads = atan2(dy, dx);
-        float angle = inRads * 180.0 / PI;
+        double inRads = atan2(dy, dx);
+        double angle = inRads * 180.0 / PI;
 
         if(angle < 0) angle += 360;
 
@@ -304,9 +325,9 @@ float Bolinha::AngleToClosestEnemy() {
 
 }
 
-float Bolinha::ClosestEnemyMass() {
+double Bolinha::ClosestEnemyMass() {
 
-    float mass = (*closestEnemy).mass;
+    double mass = (*closestEnemy).mass;
 
     return mass;
 

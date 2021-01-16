@@ -31,35 +31,36 @@
     class Bolinha {
 
         private:
-            float r,g,b;
-            float horizontal;
-            float vertical;
+            double r,g,b;
+            double horizontal;
+            double vertical;
             Comida *closestFood;
             Bolinha *closestEnemy;
             RedeNeural *redeNeural;
 
         public:
-            float x;
-            float y;
-            float mass;
+            double x;
+            double y;
+            double mass;
 
-            Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players);
+            Bolinha(double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players);
+            Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players);
 
-            float Mass();
-            float Radius();
-            float Speed();
+            double Mass();
+            double Radius();
+            double Speed();
 
             void Draw();
             void Move();
             void Collide(vector<Bolinha>& players);
             void Collide(vector<Comida>& comidas);
 
-            float DistanceToClosestFood();
-            float AngleToClosestFood();
+            double DistanceToClosestFood();
+            double AngleToClosestFood();
 
-            float DistanceToClosestEnemy();
-            float AngleToClosestEnemy();
-            float ClosestEnemyMass();
+            double DistanceToClosestEnemy();
+            double AngleToClosestEnemy();
+            double ClosestEnemyMass();
 
     };
 
