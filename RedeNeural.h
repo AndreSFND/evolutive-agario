@@ -11,9 +11,9 @@
 
 using namespace std;
 
-#define MIN_AXON -6
-#define MAX_AXON 6
-#define ESCOPO_DECIMAL_AXON 100
+#define MIN_AXON -1
+#define MAX_AXON 1
+//#define ESCOPO_DECIMAL_AXON 100
 
 #define N_INPUTS 6
 #define N_NEURONS 4
