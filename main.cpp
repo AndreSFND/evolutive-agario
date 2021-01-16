@@ -23,6 +23,7 @@
 #include <vector>
 #include "Comida.h"
 #include "Bolinha.h"
+#include "RedeNeural.h"
 
 using namespace std;
 
@@ -137,7 +138,7 @@ void destroy() {
 }
 
 int main(int argc, char** argv) {
-
+	
     initialize();
 
     // Initialize window
