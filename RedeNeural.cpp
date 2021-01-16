@@ -132,10 +132,10 @@ void RedeNeural::populateAxons()
 		for(int j = 0; j < N_NEURONS; j++)
 		{
 			// Randomizamos nossos Axons e dividimos eles para termos um axon decimal, que eh limitado pelos MIN_AXON e MAX_AXON
-			axons.axonsIn[i][j] = (double) (rand()) / ((double) (RAND_MAX / (MAX_AXON - MIN_AXON)));
+			axons.axonsIn[i][j] = ( ((double) rand() / (double) RAND_MAX) * (MAX_AXON - MIN_AXON) ) + MIN_AXON ;
 			
 			// E limitamos as casas decimais. Se quiser 3 casas decimais, use 1.000 no ESCOPO_DECIMAL_AXON, e assim vai
-			axons.axonsIn[i][j] = round( axons.axonsIn[i][j] * ESCOPO_DECIMAL_AXON) / ESCOPO_DECIMAL_AXON;
+			//axons.axonsIn[i][j] = round( axons.axonsIn[i][j] * ESCOPO_DECIMAL_AXON) / ESCOPO_DECIMAL_AXON;
 		}
 	}
 	
@@ -144,10 +144,10 @@ void RedeNeural::populateAxons()
 		for(int j = 0; j < N_OUTPUTS; j++)
 		{
 			// Randomizamos nossos Axons e dividimos eles para termos um axon decimal, que eh limitado pelos MIN_AXON e MAX_AXON
-			axons.axonsOut[i][j] = (double) (rand()) / ((double) (RAND_MAX / (MAX_AXON - MIN_AXON)));
+			axons.axonsOut[i][j] = ( ((double) rand() / (double) RAND_MAX) * (MAX_AXON - MIN_AXON) ) + MIN_AXON ;
 			
 			// E limitamos as casas decimais. Se quiser 3 casas decimais, use 1.000 no ESCOPO_DECIMAL_AXON, e assim vai
-			axons.axonsOut[i][j] = round( axons.axonsOut[i][j] * ESCOPO_DECIMAL_AXON) / ESCOPO_DECIMAL_AXON;
+			//axons.axonsOut[i][j] = round( axons.axonsOut[i][j] * ESCOPO_DECIMAL_AXON) / ESCOPO_DECIMAL_AXON;
 		}
 	}
 }
