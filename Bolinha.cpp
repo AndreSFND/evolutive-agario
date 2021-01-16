@@ -44,7 +44,16 @@ Bolinha::Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, 
     horizontal = _horizontal;
     vertical = _vertical;
 
+    closestFood = NULL;
+    closestEnemy = NULL;
+
     players.push_back(*this);
+
+}
+
+float Bolinha::Mass() {
+
+    return mass;
 
 }
 
@@ -116,7 +125,12 @@ void Bolinha::Move() {
         horizontal = 1;
         vertical = -1;
 
-    } 
+    } else {
+
+        horizontal = 0;
+        vertical = 0;
+
+    }
 
     // Move o personagem
     x += horizontal * Speed() / 500;
@@ -130,26 +144,45 @@ void Bolinha::Move() {
 
 void Bolinha::Collide(vector<Bolinha>& players) {
 
-    for(int i=0; i<players.size(); i++) {
+    int playersLength = players.size();
 
-        if( &(players[i]) != this ) {
+    float currentDistance = 0;
 
-            float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
+    if( playersLength > 0 ) {
 
-            // Se estao colidindo
-            if( (distance*2) < Radius() + players[i].Radius() ) {
+        for(int i=0; i<playersLength; i++) {
 
-                if( mass > players[i].mass ) {
+            if( &(players[i]) != this ) {
 
-                    mass += players[i].mass;
-                    players.erase(players.begin() + i);
+                float distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
+
+                if( distance < currentDistance ) {
+
+                    closestEnemy = &players[i];
+                    currentDistance = distance;
+
+                }
+
+                // Se estao colidindo
+                if( (distance*2) < Radius() + players[i].Radius() ) {
+
+                    if( mass > players[i].mass ) {
+
+                        mass += players[i].mass;
+                        players.erase(players.begin() + i);
+
+                    }
 
                 }
 
             }
-
+            
         }
-        
+
+    } else {
+
+        closestEnemy = NULL;
+
     }
 
 }
@@ -159,25 +192,35 @@ void Bolinha::Collide(vector<Comida>& comidas) {
     closestFood = &comidas[0];
     float currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
 
-    for(int i=0; i<comidas.size(); i++) {
+    int comidasLength = comidas.size();
 
-        float distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
+    if( comidasLength > 0 ) {
 
-        if( distance < currentDistance ) {
+        for(int i=0; i<comidasLength; i++) {
 
-            closestFood = &comidas[i];
-            currentDistance = distance;
+            float distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
 
+            if( distance < currentDistance ) {
+
+                closestFood = &comidas[i];
+                currentDistance = distance;
+
+            }
+
+            // Se estao colidindo
+            if( distance < Radius() + comidas[i].Radius() ) {
+
+                mass += comidas[i].mass;
+                comidas.erase(comidas.begin() + i);
+
+            }
+            
         }
 
-        // Se estao colidindo
-        if( distance < Radius() + comidas[i].Radius() ) {
+    } else {
 
-            mass += comidas[i].mass;
-            comidas.erase(comidas.begin() + i);
+        closestFood = NULL;
 
-        }
-        
     }
 
 }
@@ -192,14 +235,60 @@ float Bolinha::DistanceToClosestFood() {
 
 float Bolinha::AngleToClosestFood() {
 
-    float dx = (*closestFood).x - x;
-    float dy = (*closestFood).y - y;
+    if( closestFood != NULL ) {
 
-    float inRads = atan2(dy, dx);
-    float angle = inRads * 180.0 / PI;
+        float dx = (*closestFood).x - x;
+        float dy = (*closestFood).y - y;
 
-    if(angle < 0) angle += 360;
+        float inRads = atan2(dy, dx);
+        float angle = inRads * 180.0 / PI;
 
-    return angle;
+        if(angle < 0) angle += 360;
+
+        return angle;
+
+    } else {
+
+        return -1;
+
+    }
+
+}
+
+float Bolinha::DistanceToClosestEnemy() {
+
+    float currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
+
+    return currentDistance;
+
+}
+
+float Bolinha::AngleToClosestEnemy() {
+
+    if( closestEnemy != NULL ) {
+
+        float dx = (*closestEnemy).x - x;
+        float dy = (*closestEnemy).y - y;
+
+        float inRads = atan2(dy, dx);
+        float angle = inRads * 180.0 / PI;
+
+        if(angle < 0) angle += 360;
+
+        return angle;
+
+    } else {
+
+        return -1;
+
+    }
+
+}
+
+float Bolinha::ClosestEnemyMass() {
+
+    float mass = (*closestEnemy).mass;
+
+    return mass;
 
 }

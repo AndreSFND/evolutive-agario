@@ -34,6 +34,7 @@
             float horizontal;
             float vertical;
             Comida *closestFood;
+            Bolinha *closestEnemy;
 
         public:
             float x;
@@ -42,6 +43,7 @@
 
             Bolinha(float _mass, float _x, float _y, float _r, float _g, float _b, float _horizontal, float _vertical, vector<Bolinha>& players);
 
+            float Mass();
             float Radius();
             float Speed();
 
@@ -52,6 +54,10 @@
 
             float DistanceToClosestFood();
             float AngleToClosestFood();
+
+            float DistanceToClosestEnemy();
+            float AngleToClosestEnemy();
+            float ClosestEnemyMass();
 
     };
 
