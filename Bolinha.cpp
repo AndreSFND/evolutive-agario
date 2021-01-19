@@ -43,6 +43,7 @@ Bolinha::Bolinha(double _mass, double _x, double _y, double _r, double _g, doubl
     r = _r; g = _g; b = _b;
     horizontal = _horizontal;
     vertical = _vertical;
+    active = true;
 
     closestFood = NULL;
     closestEnemy = NULL;
@@ -64,6 +65,7 @@ Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], do
     r = _r; g = _g; b = _b;
     horizontal = _horizontal;
     vertical = _vertical;
+    active = true;
 
     closestFood = NULL;
     closestEnemy = NULL;
@@ -187,7 +189,7 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
         for(int i=0; i<playersLength; i++) {
 
-            if( &(players[i]) != this ) {
+            if( &(players[i]) != this && players[i].isActive() ) {
 
                 double distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
@@ -209,7 +211,8 @@ void Bolinha::Collide(vector<Bolinha>& players) {
                     if( mass > players[i].mass ) {
 
                         mass += players[i].mass;
-                        players.erase(players.begin() + i);
+                        players[i].setActive(false);
+                        // players.erase(players.begin() + i);
 
                     }
 
@@ -330,5 +333,17 @@ double Bolinha::ClosestEnemyMass() {
     double mass = (*closestEnemy).mass;
 
     return mass;
+
+}
+
+bool Bolinha::isActive() {
+
+    return this->active;
+
+}
+
+void Bolinha::setActive(bool active) {
+
+    this->active = active;
 
 }

@@ -221,7 +221,7 @@ void draw() {
 
     for(int i=0; i<players.size(); i++) {
     
-        players[i].Draw();
+        if( players[i].isActive() ) players[i].Draw();
     
     }
 
@@ -233,9 +233,13 @@ void timer(int) {
 
     for(int i=0; i<players.size(); i++) {
     
-        players[i].Collide(players);
-        players[i].Collide(comidas);
-        players[i].Move();
+        if( players[i].isActive() ) {
+            
+            players[i].Collide(players);
+            players[i].Collide(comidas);
+            players[i].Move();
+
+        }
     
     }
 

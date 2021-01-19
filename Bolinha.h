@@ -34,6 +34,7 @@
             double r,g,b;
             double horizontal;
             double vertical;
+            bool active;
             Comida *closestFood;
             Bolinha *closestEnemy;
             RedeNeural *redeNeural;
@@ -61,6 +62,9 @@
             double DistanceToClosestEnemy();
             double AngleToClosestEnemy();
             double ClosestEnemyMass();
+
+            bool isActive();
+            void setActive(bool active);
 
     };
 
