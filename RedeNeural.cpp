@@ -124,9 +124,7 @@ void RedeNeural::setBiasOutput(double _biasOutput)
 
 // METODOS
 void RedeNeural::populateAxons()
-{
-	srand( (unsigned)time(NULL) );
-	
+{	
 	for(int i = 0; i < N_INPUTS; i++)
 	{
 		for(int j = 0; j < N_NEURONS; j++)

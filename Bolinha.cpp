@@ -35,28 +35,6 @@ void DrawCircle(double cx, double cy, double r, int num_segments) {
 
 }
 
-Bolinha::Bolinha(double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players) {
-    
-    mass = _mass;
-    x = _x;
-    y = _y;
-    r = _r; g = _g; b = _b;
-    horizontal = _horizontal;
-    vertical = _vertical;
-    active = true;
-
-    closestFood = NULL;
-    closestEnemy = NULL;
-
-    double _inputs[] = {0, 0, 0, 0, 0, 0};
-	double _biasNeuron = 0;
-	double _biasOutput = 0;
-
-    redeNeural = new RedeNeural(_inputs, _biasNeuron, _biasOutput);
-    players.push_back(*this);
-
-}
-
 Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players) {
     
     mass = _mass;

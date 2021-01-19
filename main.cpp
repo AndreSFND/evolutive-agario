@@ -19,6 +19,7 @@
     #include <GL/glut.h>
 #endif
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -90,15 +91,16 @@ double fRand(double fMin, double fMax)
 // Roda ao iniciar a partida
 void initialize() {
 
-    srand( time(NULL) );
+    players.reserve( nPlayers );
 
+    double axonsIn[N_INPUTS][N_NEURONS];
+    double axonsOut[N_NEURONS][N_OUTPUTS];
 
     if( winners.size() <= 0 ) {
 
-        for(int i=0; i<nPlayers; i++) {
+        int counter = 0;
 
-            double axonsIn[N_INPUTS][N_NEURONS];
-			double axonsOut[N_NEURONS][N_OUTPUTS];
+        for(int i=0; i<nPlayers; i++) {
 
             for( int j=0; j<N_INPUTS; j++ ) {
 
@@ -126,21 +128,26 @@ void initialize() {
         
     } else { // Se existem vencedores da ultima partida, faz o cruzamento
 
-        vector<Bolinha> nextGen;
+        printf("Cruzando\n");
+
+        vector<Bolinha> oldGen(players);
+        players.clear();
+        players.reserve(10);
+
+        RedeNeural::structAxons winnerAxons = winners[0].redeNeural->getAxons();
 
         for(int i=0; i<nPlayers; i++) {
 
-            double axonsIn[N_INPUTS][N_NEURONS];
-			double axonsOut[N_NEURONS][N_OUTPUTS];
-
-            RedeNeural::structAxons winnerAxons = winners[0].redeNeural->getAxons();
-            RedeNeural::structAxons playerAxons = players[i].redeNeural->getAxons();
+            RedeNeural::structAxons playerAxons = oldGen[i].redeNeural->getAxons();
 
             for( int j=0; j<N_INPUTS; j++ ) {
 
                 for( int k=0; k<N_NEURONS; k++ ) {
 
-                    axonsIn[j][k] = playerAxons.axonsIn[j][k];
+                    double axon = ( ( playerAxons.axonsIn[j][k] + winnerAxons.axonsIn[j][k] ) / 2 ) * fRand(0, 2);
+                    if( playerAxons.axonsIn[j][k] == winnerAxons.axonsIn[j][k] ) axon = winnerAxons.axonsIn[j][k];
+
+                    axonsIn[j][k] = axon;
 
                 }
 
@@ -150,18 +157,24 @@ void initialize() {
 
                 for( int k=0; k<N_OUTPUTS; k++ ) {
 
-                    axonsOut[j][k] = playerAxons.axonsOut[j][k];
+                    double axon = ( ( playerAxons.axonsOut[j][k] + winnerAxons.axonsOut[j][k] ) / 2 ) * fRand(0, 2);
+                    if( playerAxons.axonsOut[j][k] == winnerAxons.axonsOut[j][k] ) axon = winnerAxons.axonsOut[j][k];
+
+                    axonsOut[j][k] = axon;
+
+                    // printf("%d %f %f\n", i, playerAxons.axonsOut[j][k], winnerAxons.axonsOut[j][k]);
 
                 }
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, nextGen);
+            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
 
         }
 
-        players.clear();
-        nextGen.clear();
+        oldGen.clear();
+        winners.clear();
+        winners.reserve(0);
 
     }
 
@@ -173,8 +186,6 @@ void initialize() {
         new Comida(x, y, 0.8, 0, 0.8, comidas);
 
     }
-
-    winners.clear();
 
 }
 
@@ -197,13 +208,13 @@ void destroy() {
     }
 
     winners.push_back(*winner);
-
-    players.clear();
     comidas.clear();
 
 }
 
 int main(int argc, char** argv) {
+
+    srand( time(NULL) );
 	
     initialize();
 
