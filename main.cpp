@@ -92,28 +92,29 @@ void initialize() {
 
     srand( time(NULL) );
 
-    for(int i=0; i<nPlayers; i++) {
 
-        if( winners.size() <= 0 ) {
+    if( winners.size() <= 0 ) {
+
+        for(int i=0; i<nPlayers; i++) {
 
             double axonsIn[N_INPUTS][N_NEURONS];
 			double axonsOut[N_NEURONS][N_OUTPUTS];
 
-            for( int i=0; i<N_INPUTS; i++ ) {
+            for( int j=0; j<N_INPUTS; j++ ) {
 
-                for( int j=0; j<N_NEURONS; j++ ) {
+                for( int k=0; k<N_NEURONS; k++ ) {
 
-                    axonsIn[i][j] = fRand(MIN_AXON, MAX_AXON);
+                    axonsIn[j][k] = fRand(MIN_AXON, MAX_AXON);
 
                 }
 
             }
 
-            for( int i=0; i<N_NEURONS; i++ ) {
+            for( int j=0; j<N_NEURONS; j++ ) {
 
-                for( int j=0; j<N_OUTPUTS; j++ ) {
+                for( int k=0; k<N_OUTPUTS; k++ ) {
 
-                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
+                    axonsOut[j][k] = fRand(MIN_AXON, MAX_AXON);
 
                 }
 
@@ -121,34 +122,46 @@ void initialize() {
             
             new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
 
-        } else { // Se existem vencedores da ultima partida, faz o cruzamento
+        } 
+        
+    } else { // Se existem vencedores da ultima partida, faz o cruzamento
+
+        vector<Bolinha> nextGen;
+
+        for(int i=0; i<nPlayers; i++) {
 
             double axonsIn[N_INPUTS][N_NEURONS];
 			double axonsOut[N_NEURONS][N_OUTPUTS];
 
-            for( int i=0; i<N_INPUTS; i++ ) {
+            RedeNeural::structAxons winnerAxons = winners[0].redeNeural->getAxons();
+            RedeNeural::structAxons playerAxons = players[i].redeNeural->getAxons();
 
-                for( int j=0; j<N_NEURONS; j++ ) {
+            for( int j=0; j<N_INPUTS; j++ ) {
 
-                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
+                for( int k=0; k<N_NEURONS; k++ ) {
+
+                    axonsIn[j][k] = playerAxons.axonsIn[j][k];
 
                 }
 
             }
 
-            for( int i=0; i<N_NEURONS; i++ ) {
+            for( int j=0; j<N_NEURONS; j++ ) {
 
-                for( int j=0; j<N_OUTPUTS; j++ ) {
+                for( int k=0; k<N_OUTPUTS; k++ ) {
 
-                    axonsOut[i][j] = fRand(MIN_AXON, MAX_AXON);
+                    axonsOut[j][k] = playerAxons.axonsOut[j][k];
 
                 }
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, nextGen);
 
         }
+
+        players.clear();
+        nextGen.clear();
 
     }
 

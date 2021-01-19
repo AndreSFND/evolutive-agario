@@ -37,12 +37,12 @@
             bool active;
             Comida *closestFood;
             Bolinha *closestEnemy;
-            RedeNeural *redeNeural;
 
         public:
             double x;
             double y;
             double mass;
+            RedeNeural *redeNeural;
 
             Bolinha(double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players);
             Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players);

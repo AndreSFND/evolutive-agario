@@ -21,13 +21,14 @@ using namespace std;
 
 class RedeNeural {
 
-    private:
-        typedef struct 
+	public:
+		typedef struct 
 		{
 			double axonsIn[N_INPUTS][N_NEURONS]; // [x][y] -> [x] eh para o input, signifca qual input veio, [y] eh para neuronio, signifca para qual neuronio vai
 			double axonsOut[N_NEURONS][N_OUTPUTS]; // [x][y] -> [x] eh para o neuronio, signifca qual neuronio veio, [y] eh para output, signifca para qual output vai
 		} structAxons;
 
+    private:
     	double input[N_INPUTS], output[N_OUTPUTS];
         double neuron[N_NEURONS];
 		structAxons axons;
