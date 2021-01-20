@@ -62,7 +62,7 @@ Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], do
 
 double Bolinha::Mass() {
 
-    return mass;
+    return isnan(mass) ? 0 : mass;
 
 }
 
@@ -70,7 +70,7 @@ double Bolinha::Radius() {
 
     double radius = sqrt( mass / PI );
 
-    return radius;
+    return isnan(radius) ? 0 : radius;
 
 }
 
@@ -78,7 +78,7 @@ double Bolinha::Speed() {
 
     double speed = pow(Radius(), -0.439) * 2.2;
 
-    return speed;
+    return isnan(speed) ? 0 : speed;
 
 }
 
@@ -100,6 +100,20 @@ void Bolinha::Move() {
 
     horizontal = ( _outputs[0] * 2 ) - 1;
     vertical = ( _outputs[1] * 2 ) - 1;
+
+    RedeNeural::structAxons playerAxons = redeNeural->getAxons();
+
+    // printf("%f %f %f %f %f %f\n", _inputs[0], _inputs[1], _inputs[2], _inputs[3], _inputs[4], _inputs[5]);
+    // for(int i=0; i<N_INPUTS; i++) 
+    //     for(int j=0; j<N_NEURONS; j++) 
+    //         printf("%f ", playerAxons.axonsIn[i][j]);
+    // printf("\n");
+    // for(int i=0; i<N_NEURONS; i++) 
+    //     for(int j=0; j<N_OUTPUTS; j++) 
+    //         printf("%f ", playerAxons.axonsOut[i][j]);
+    // printf("\n");
+    // printf("%f %f\n", _outputs[0], _outputs[1]);
+    // printf("%f %f\n", horizontal, vertical);
 
     // if( angle == 0 ) {
 
@@ -250,7 +264,7 @@ double Bolinha::DistanceToClosestFood() {
 
     double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
 
-    return currentDistance;
+    return isnan(currentDistance) ? 0 : currentDistance;
 
 }
 
@@ -266,7 +280,7 @@ double Bolinha::AngleToClosestFood() {
 
         if(angle < 0) angle += 360;
 
-        return angle;
+        return isnan(angle) ? 0 : angle;
 
     } else {
 
@@ -280,7 +294,7 @@ double Bolinha::DistanceToClosestEnemy() {
 
     double currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
 
-    return currentDistance;
+    return isnan(currentDistance) ? 0 : currentDistance;
 
 }
 
@@ -296,7 +310,7 @@ double Bolinha::AngleToClosestEnemy() {
 
         if(angle < 0) angle += 360;
 
-        return angle;
+        return isnan(angle) ? 0 : angle;
 
     } else {
 
@@ -310,7 +324,7 @@ double Bolinha::ClosestEnemyMass() {
 
     double mass = (*closestEnemy).mass;
 
-    return mass;
+    return isnan(mass) ? 0 : mass;
 
 }
 

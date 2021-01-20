@@ -40,6 +40,7 @@ RedeNeural::RedeNeural(double _input[], double _biasNeuron, double _biasOutput)
 	{
 		input[i] = _input[i];
 	}
+
 	biasNeuron = _biasNeuron;
 	biasOutput = _biasOutput;
 	populateAxons(); // Isso talvez seja removido depois, ja que popular os axons o usuario q faz uma vez so, e nao a cada construcao
@@ -176,13 +177,19 @@ void RedeNeural::activatingFunction(double source[], int size) // Funcao de ativ
 
 double RedeNeural::feedForward() // O processo de feedForward, populando os neuronios e os outputs com os calculos vistos
 {
+
+	for(int i = 0; i < N_NEURONS; i++)
+	{
+		neuron[i] = 0;
+	}
+
 	// Calculo do valor dos neuronios conforme visto aos 11:05 de https://www.youtube.com/watch?v=d8U7ygZ48Sc
 	// printf("\n\n\tFF DE NEURONIOS\n");
 	for(int i = 0; i < N_NEURONS; i++) 
 	{
 		for(int j = 0; j < N_INPUTS; j++)
 		{
-			// printf("\nNEURON[%d]: Adicionando [ input[%d] * axons.axonsIn[%d][%d] >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, input[j], axons.axonsIn[j][i], input[j]*axons.axonsIn[j][i]);
+			// printf("\nNEURON[%d]: Adicionando [ input[%d] * ]axons.axonsIn[%d][%d >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, input[j], axons.axonsIn[j][i], input[j]*axons.axonsIn[j][i]);
 			neuron[i] += input[j] * axons.axonsIn[j][i];
 			// printf("%.2f\n", neuron[i]);
 		}
@@ -196,17 +203,17 @@ double RedeNeural::feedForward() // O processo de feedForward, populando os neur
 	activatingFunction(neuron, N_NEURONS);
 	
 	// Calculo do valor dos neuronios conforme visto aos 13:58 de https://www.youtube.com/watch?v=d8U7ygZ48Sc
-	//printf("\n\n\tFF DE OUTPUTS\n");
+	// printf("\n\n\tFF DE OUTPUTS\n");
 	for(int i = 0; i < N_OUTPUTS; i++) // A cada neuronio, faca...
 	{
 		for(int j = 0; j < N_NEURONS; j++) // A cada output, faca
 		{
-			//printf("\nOUTPUT[%d]: Adicionando [ neuron[%d] * axons.axonsOut[%d][%d] >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, neuron[j], axons.axonsOut[j][i], neuron[j]*axons.axonsOut[j][i]);
+			// printf("\nOUTPUT[%d]: Adicionando [ neuron[%d] * axons.axonsOut[%d][%d] >> %.2f  * %.2f ] = %.2f, totalizando... ", i, j, j, i, neuron[j], axons.axonsOut[j][i], neuron[j]*axons.axonsOut[j][i]);
 			output[i] += neuron[j] * axons.axonsOut[j][i];
-			//printf("%.2f\n", output[i]);
+			// printf("%.2f\n", output[i]);
 		}
 		output[i] += biasOutput;
-		//printf("\nCom bias final de %.2f, totalizando %.2f (output[%d])\n\n", biasOutput, output[i], i);
+		// printf("\nCom bias final de %.2f, totalizando %.2f (output[%d])\n\n", biasOutput, output[i], i);
 	}
 	// Para os outputs na situacao com 2 neurons e 2 outputs, 4 axonsOut, temos que...
 	// output[0] = neuron[0] * axons.axonsOut[0][0] + neuron[1] * axons.axonsOut[1][0]

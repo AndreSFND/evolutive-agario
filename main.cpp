@@ -32,10 +32,10 @@ using namespace std;
 #define windowHeight 600
 #define windowPositionX 383
 #define windowPositionY 84
-#define fps 60
+#define fps 180
 
 #define nPlayers 10
-#define timeLimit 500
+#define timeLimit 100
 
 void initialize();
 void draw();
@@ -91,8 +91,6 @@ double fRand(double fMin, double fMax)
 // Roda ao iniciar a partida
 void initialize() {
 
-    players.reserve( nPlayers );
-
     double axonsIn[N_INPUTS][N_NEURONS];
     double axonsOut[N_NEURONS][N_OUTPUTS];
 
@@ -122,23 +120,22 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.01, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
 
-        } 
+        }
         
     } else { // Se existem vencedores da ultima partida, faz o cruzamento
 
-        printf("Cruzando\n");
-
         vector<Bolinha> oldGen(players);
         players.clear();
-        players.reserve(10);
 
         RedeNeural::structAxons winnerAxons = winners[0].redeNeural->getAxons();
 
         for(int i=0; i<nPlayers; i++) {
 
             RedeNeural::structAxons playerAxons = oldGen[i].redeNeural->getAxons();
+
+            // printf("%f %f\n", playerAxons.axonsIn[0][0], winnerAxons.axonsIn[0][0]);
 
             for( int j=0; j<N_INPUTS; j++ ) {
 
@@ -168,7 +165,7 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, -0.2 * i, -0.2 * i, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.01, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
 
         }
 
@@ -215,7 +212,8 @@ void destroy() {
 int main(int argc, char** argv) {
 
     srand( time(NULL) );
-	
+
+    players.reserve( nPlayers );
     initialize();
 
     // Initialize window
