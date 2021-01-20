@@ -81,6 +81,7 @@ vector<Comida> comidas;
 vector<Bolinha> players;
 vector<Bolinha> winners;
 int ticks = 0;
+int geracao = 1;
 
 double fRand(double fMin, double fMax)
 {
@@ -90,6 +91,8 @@ double fRand(double fMin, double fMax)
 
 // Roda ao iniciar a partida
 void initialize() {
+
+    printf("GERACAO %d\n", geracao++);
 
     double axonsIn[N_INPUTS][N_NEURONS];
     double axonsOut[N_NEURONS][N_OUTPUTS];

@@ -228,7 +228,7 @@ void Bolinha::Collide(vector<Comida>& comidas) {
     double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
 
     int comidasLength = comidas.size();
-
+    
     if( comidasLength > 0 ) {
 
         for(int i=0; i<comidasLength; i++) {
@@ -262,9 +262,15 @@ void Bolinha::Collide(vector<Comida>& comidas) {
 
 double Bolinha::DistanceToClosestFood() {
 
-    double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+    if( closestFood != NULL ) {
 
-    return isnan(currentDistance) ? 0 : currentDistance;
+        double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
+
+        return isnan(currentDistance) ? 0 : currentDistance;
+
+    }
+
+    return -1;
 
 }
 
@@ -292,9 +298,15 @@ double Bolinha::AngleToClosestFood() {
 
 double Bolinha::DistanceToClosestEnemy() {
 
-    double currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
+    if( closestEnemy != NULL ) {
 
-    return isnan(currentDistance) ? 0 : currentDistance;
+        double currentDistance = sqrt(pow((*closestEnemy).x - x, 2) + pow((*closestEnemy).y - y, 2) * 1.0);
+
+        return isnan(currentDistance) ? 0 : currentDistance;
+
+    }
+
+    return -1;
 
 }
 
@@ -322,9 +334,15 @@ double Bolinha::AngleToClosestEnemy() {
 
 double Bolinha::ClosestEnemyMass() {
 
-    double mass = (*closestEnemy).mass;
+    if( closestEnemy != NULL ) {
 
-    return isnan(mass) ? 0 : mass;
+        double mass = (*closestEnemy).mass;
+
+        return isnan(mass) ? 0 : mass;
+
+    }
+
+    return -1;
 
 }
 
