@@ -175,7 +175,7 @@ void Bolinha::Move() {
 void Bolinha::Collide(vector<Bolinha>& players) {
 
     int playersLength = players.size();
-    double currentDistance = 0;
+    double currentDistance = -1;
 
     if( playersLength > 0 ) {
 
@@ -185,7 +185,7 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
                 double distance = sqrt(pow(players[i].x - x, 2) + pow(players[i].y - y, 2) * 1.0);
 
-                if( currentDistance == 0 ) {
+                if( currentDistance == -1 ) {
 
                     closestEnemy = &players[i];
                     currentDistance = distance;
@@ -224,29 +224,37 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
 void Bolinha::Collide(vector<Comida>& comidas) {
 
-    closestFood = &comidas[0];
-    double currentDistance = sqrt(pow((*closestFood).x - x, 2) + pow((*closestFood).y - y, 2) * 1.0);
-
     int comidasLength = comidas.size();
-    
+    double currentDistance = -1;
+
     if( comidasLength > 0 ) {
 
         for(int i=0; i<comidasLength; i++) {
 
-            double distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
+            if( comidas[i].isActive() ) {
 
-            if( distance < currentDistance ) {
+                double distance = sqrt(pow(comidas[i].x - x, 2) + pow(comidas[i].y - y, 2) * 1.0);
 
-                closestFood = &comidas[i];
-                currentDistance = distance;
+                if( currentDistance == -1 ) {
 
-            }
+                    closestFood = &comidas[i];
+                    currentDistance = distance;
 
-            // Se estao colidindo
-            if( distance < Radius() + comidas[i].Radius() ) {
+                } else if( distance < currentDistance ) {
 
-                mass += comidas[i].mass;
-                comidas.erase(comidas.begin() + i);
+                    closestFood = &comidas[i];
+                    currentDistance = distance;
+
+                }
+
+                // Se estao colidindo
+                if( distance < Radius() + comidas[i].Radius() ) {
+
+                    mass += comidas[i].mass;
+                    comidas[i].setActive(false);
+                    // comidas.erase(comidas.begin() + i);
+
+                }
 
             }
             

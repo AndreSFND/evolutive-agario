@@ -41,6 +41,7 @@ Comida::Comida(double _x, double _y, double _r, double _g, double _b, vector<Com
     x = _x;
     y = _y;
     r = _r; g = _g; b = _b;
+    active = true;
 
     comidas.push_back(*this);
 
@@ -60,5 +61,17 @@ void Comida::Draw() {
     glColor3f(r, g, b);
     DrawCircle_(x, y, Radius(), CIRCLE_SEGMENTS);
     glEnd();
+
+}
+
+bool Comida::isActive() {
+
+    return this->active;
+
+}
+
+void Comida::setActive(bool active) {
+
+    this->active = active;
 
 }

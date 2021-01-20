@@ -32,7 +32,7 @@ using namespace std;
 #define windowHeight 600
 #define windowPositionX 383
 #define windowPositionY 84
-#define fps 180
+#define fps 360
 
 #define nPlayers 10
 #define timeLimit 100
@@ -240,7 +240,7 @@ void draw() {
 
     for(int i=0; i<comidas.size(); i++) {
     
-        comidas[i].Draw();
+        if( comidas[i].isActive() ) comidas[i].Draw();
     
     }
 

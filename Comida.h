@@ -30,6 +30,7 @@
 
         private:
             double r,g,b;
+            bool active;
 
         public:
             double x;
@@ -41,6 +42,9 @@
             double Radius();
 
             void Draw();
+
+            bool isActive();
+            void setActive(bool active);
 
     };
 
