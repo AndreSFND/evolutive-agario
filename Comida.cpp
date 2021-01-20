@@ -14,7 +14,7 @@
 
 #include "Comida.h"
 #define CIRCLE_SEGMENTS 8
-#define MASS 0.0005
+#define MASS 0.00005
 
 using namespace std;
 

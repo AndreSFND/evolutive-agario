@@ -170,6 +170,12 @@ void Bolinha::Move() {
     x = x > 1 || x < -1 ? x*-1 : x;
     y = y > 1 || y < -1 ? y*-1 : y;
 
+    // x = x + Radius() > 1 ? 1 - Radius() : x;
+    // x = x - Radius() < -1 ? -1 + Radius() : x;
+
+    // y = y + Radius() > 1 ? 1 - Radius() : y;
+    // y = y - Radius() < -1 ? -1 + Radius() : y;
+
 }
 
 void Bolinha::Collide(vector<Bolinha>& players) {

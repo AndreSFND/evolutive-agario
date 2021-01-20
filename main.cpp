@@ -32,10 +32,10 @@ using namespace std;
 #define windowHeight 600
 #define windowPositionX 383
 #define windowPositionY 84
-#define fps 360
+#define fps 720
 
 #define nPlayers 10
-#define timeLimit 100
+#define timeLimit 500
 
 void initialize();
 void draw();
@@ -83,6 +83,21 @@ vector<Bolinha> winners;
 int ticks = 0;
 int geracao = 1;
 
+int countActivePlayers() {
+
+    int activePlayers = 0;
+
+    for(int i=0; i<nPlayers; i++) {
+
+        if(players[i].isActive())
+            activePlayers++;
+
+    }
+
+    return activePlayers;
+
+}
+
 double fRand(double fMin, double fMax)
 {
     double f = (double)rand() / RAND_MAX;
@@ -123,7 +138,7 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
 
         }
         
@@ -144,7 +159,7 @@ void initialize() {
 
                 for( int k=0; k<N_NEURONS; k++ ) {
 
-                    double axon = ( ( playerAxons.axonsIn[j][k] + winnerAxons.axonsIn[j][k] ) / 2 ) * fRand(0, 2);
+                    double axon = ( ( playerAxons.axonsIn[j][k] + winnerAxons.axonsIn[j][k] ) / 2 ) + fRand(-1, 1);
                     if( playerAxons.axonsIn[j][k] == winnerAxons.axonsIn[j][k] ) axon = winnerAxons.axonsIn[j][k];
 
                     axonsIn[j][k] = axon;
@@ -157,7 +172,7 @@ void initialize() {
 
                 for( int k=0; k<N_OUTPUTS; k++ ) {
 
-                    double axon = ( ( playerAxons.axonsOut[j][k] + winnerAxons.axonsOut[j][k] ) / 2 ) * fRand(0, 2);
+                    double axon = ( ( playerAxons.axonsOut[j][k] + winnerAxons.axonsOut[j][k] ) / 2 ) + fRand(-1, 1);
                     if( playerAxons.axonsOut[j][k] == winnerAxons.axonsOut[j][k] ) axon = winnerAxons.axonsOut[j][k];
 
                     axonsOut[j][k] = axon;
@@ -168,7 +183,7 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.01, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
 
         }
 
@@ -178,7 +193,7 @@ void initialize() {
 
     }
 
-    for(int i=0; i<nPlayers*10; i++) {
+    for(int i=0; i<nPlayers*5; i++) {
 
         double x = ((rand() % 200) / 100.0) - 1;
         double y = ((rand() % 200) / 100.0) - 1;
@@ -198,7 +213,7 @@ void destroy() {
 
     for(int i=0; i<playersLength; i++) {
 
-        if( players[i].Mass() > maxMass ) {
+        if( players[i].isActive() && players[i].Mass() > maxMass ) {
 
             winner = &players[i];
             maxMass = players[i].Mass();
@@ -206,6 +221,8 @@ void destroy() {
         }
 
     }
+
+    printf("Winner stats: \n \tmass = %f\n", winner->mass);
 
     winners.push_back(*winner);
     comidas.clear();
@@ -270,7 +287,7 @@ void timer(int) {
 
     ticks++;
 
-    if( ticks > timeLimit ) {
+    if( ticks > timeLimit || countActivePlayers() == 1 ) {
 
         ticks = 0;
 
