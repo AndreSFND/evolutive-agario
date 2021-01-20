@@ -32,10 +32,10 @@ using namespace std;
 #define windowHeight 600
 #define windowPositionX 383
 #define windowPositionY 84
-#define fps 720
+#define fps 60
 
 #define nPlayers 10
-#define timeLimit 500
+#define timeLimit 2000
 
 void initialize();
 void draw();
@@ -138,7 +138,7 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 1, 0, 1, 1, 0, players);
 
         }
         
@@ -183,7 +183,7 @@ void initialize() {
 
             }
             
-            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 0.8, 0, 0, 1, 0, players);
+            new Bolinha(axonsIn, axonsOut, 0.001, (0.1 * i)-0.5, (0.1 * i)-0.5, 1, 0, 1, 1, 0, players);
 
         }
 
