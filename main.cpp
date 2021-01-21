@@ -62,18 +62,42 @@ void timer(int);
  *          - Quem ganha cruza com todo mundo; os filhos substituem todos, menos ele
  * 
  *      Torneio de 2:
- *          - 
+ *          - Selecionados 2 aleatoriamente para lutarem; vencedor eh o pai; o mesmo ocorre para a mae
  * 
- *      Se acaba o tempo:
- *          -Faz suruba com até 3 vencedores
- * 
- *          Bolinhas restantes (quando acaba o tempo) = números de pais = 3;
- *          Vencedor = 1 (sempre) = a;
- *          Filhos = (0,25 * a + 0,25 * b + 0,5 * aleatório) / 3,  (0,25 * a + 0,25 * c + 0,5 * aleatório) / 3, ..., (0,25 * a + 0,25 * n + 0,5 * aleatório) / 3
+ *      Opcoes de cruzamento decorrentes do elitismo (ambas descartadas), para os casos de 1, 2 ou 3 bolinhas restantes (aplicando-se para qualquer quantidade que seja):
+ *          - Opcao 1:
+ *              Bolinhas restantes (quando acaba o tempo) = 1 -> numeros de pais = 2;
+ *              Numero de vencedores = 1 -> vencedor = a;
+ *              n = total - 1;
+ *              Filhos = ((a + b) / 2),  ((a + c) / 2), ..., ((a + n) / 2)
+ *
+ *              Bolinhas restantes (quando acaba o tempo) = 2 -> numeros de pais = 3;
+ *              Numero de vencedores = 2 -> vencedores = a, b;
+ *              n = total - 2;
+ *              Filhos = ((a + b + c) / 3), ((a + b + d) / 3), ..., ((a + b + n) / 3)
+ *
+ *              Bolinhas restantes (quando acaba o tempo) = 3 -> numeros de pais = 4;
+ *              Numero de vencedores = 3 -> vencedores = a, b, c;
+ *              n = total - 3;
+ *              Filhos = ((a + b + c + d) / 4), ((a + b + c + e) / 4), ..., ((a + b + c + n) / 4)
+ *          - Opcao 2:
+ *              Bolinhas restantes (quando acaba o tempo) = 1 -> numeros de pais = 2;
+ *              Numero de vencedores = 1 -> vencedor = a;
+ *              n = total - 1;
+ *              Filhos = ((a + b) / 2),  ((a + c) / 2), ..., ((a + n) / 2)
+ *
+ *              Bolinhas restantes (quando acaba o tempo) = 2 -> numeros de pais = 3;
+ *              Numero de vencedores = 1 -> vencedor = a;
+ *              n = total - 1;
+ *              Filhos = (0,5 * a + 0,25 * b + 0,25 * aleatorio),  (0,5 * a + 0,25 * c + 0,25 * aleatorio), ..., (0,5 * a + 0,25 * n + 0,25 * aleatorio)
+ *
+ *              Bolinhas restantes (quando acaba o tempo) = 3 -> numeros de pais = 4;
+ *              Numero de vencedores = 1 -> vencedor = a;
+ *              n = total - 1;
+ *              Filhos = (0,5 * a + 0,25 * b + 0,125 * aleatorio + 0,125 * aleatorio),  (0,5 * a + 0,25 * c + 0,125 * aleatorio + 0,125 * aleatorio), ..., (0,5 * a + 0,25 * n + 0,125 * aleatorio + 0,125 * aleatorio)
+ *              XOU
+ *              Filhos = (0,5 * a + 0,5 * (b + aleatorio + aleatorio) / 3),  (0,5 * a + 0,5 * (c + aleatorio + aleatorio) / 3), ..., (0,5 * a + 0,5 * (n + aleatorio + aleatorio) / 3)
  *      
- *      Senao:
- *          -Roda o elitismo
- *          
  * 
 */
 
