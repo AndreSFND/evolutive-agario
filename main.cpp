@@ -101,12 +101,16 @@ void timer(int);
  * 
 */
 
+// Vetores que salval as comidas, players e vencedores da partida
 vector<Comida> comidas;
 vector<Bolinha> players;
 vector<Bolinha> winners;
+
+// Tick e geracao atual
 int ticks = 0;
 int geracao = 1;
 
+// Conta a quantidade de jogadores vivos
 int countActivePlayers() {
 
     int activePlayers = 0;
@@ -122,6 +126,7 @@ int countActivePlayers() {
 
 }
 
+// Gera um numero aleatorio
 double fRand(double fMin, double fMax)
 {
     double f = (double)rand() / RAND_MAX;
@@ -131,11 +136,14 @@ double fRand(double fMin, double fMax)
 // Roda ao iniciar a partida
 void initialize() {
 
+    // Imprime a geracao atual
     printf("GERACAO %d\n", geracao++);
 
+    // Inicializa os axons da rede neural
     double axonsIn[N_INPUTS][N_NEURONS];
     double axonsOut[N_NEURONS][N_OUTPUTS];
 
+    // Se nao houverem vencedores, inicializa a partida com axons aleatorios
     if( winners.size() <= 0 ) {
 
         int counter = 0;
@@ -166,23 +174,27 @@ void initialize() {
 
         }
         
-    } else { // Se existem vencedores da ultima partida, faz o cruzamento
+    } else { // Se houverem vencedores da ultima partida, faz o cruzamento (elitismo)
 
+        // Move os jogadores atuais para outro vetor 
         vector<Bolinha> oldGen(players);
+
+        // Limpa o vetor de jogadores atuais
         players.clear();
 
+        // Pega os axons do vencedor
         RedeNeural::structAxons winnerAxons = winners[0].redeNeural->getAxons();
 
         for(int i=0; i<nPlayers; i++) {
 
+            // Pega os axons do jogador da ultima geracao
             RedeNeural::structAxons playerAxons = oldGen[i].redeNeural->getAxons();
-
-            // printf("%f %f\n", playerAxons.axonsIn[0][0], winnerAxons.axonsIn[0][0]);
 
             for( int j=0; j<N_INPUTS; j++ ) {
 
                 for( int k=0; k<N_NEURONS; k++ ) {
 
+                    // Cruza o vencedor com o jogador da ultima geracao
                     double axon = ( ( playerAxons.axonsIn[j][k] + winnerAxons.axonsIn[j][k] ) / 2 ) + fRand(-1, 1);
                     if( playerAxons.axonsIn[j][k] == winnerAxons.axonsIn[j][k] ) axon = winnerAxons.axonsIn[j][k];
 
@@ -196,12 +208,11 @@ void initialize() {
 
                 for( int k=0; k<N_OUTPUTS; k++ ) {
 
+                    // Cruza o vencedor com o jogador da ultima geracao
                     double axon = ( ( playerAxons.axonsOut[j][k] + winnerAxons.axonsOut[j][k] ) / 2 ) + fRand(-1, 1);
                     if( playerAxons.axonsOut[j][k] == winnerAxons.axonsOut[j][k] ) axon = winnerAxons.axonsOut[j][k];
 
                     axonsOut[j][k] = axon;
-
-                    // printf("%d %f %f\n", i, playerAxons.axonsOut[j][k], winnerAxons.axonsOut[j][k]);
 
                 }
 
@@ -217,6 +228,7 @@ void initialize() {
 
     }
 
+    // Cria as comidas em locais aleatorios
     for(int i=0; i<nPlayers*5; i++) {
 
         double x = ((rand() % 200) / 100.0) - 1;
@@ -235,6 +247,7 @@ void destroy() {
     double maxMass = 0;
     Bolinha *winner;
 
+    // Busca pelo vencedor
     for(int i=0; i<playersLength; i++) {
 
         if( players[i].isActive() && players[i].Mass() > maxMass ) {
@@ -246,6 +259,7 @@ void destroy() {
 
     }
 
+    // Imprime os dados do vencedor
     printf("Winner stats: \n \tmass = %f\n", winner->mass);
 
     winners.push_back(*winner);
@@ -279,12 +293,14 @@ void draw() {
     
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // Desenha as comidas ativas
     for(int i=0; i<comidas.size(); i++) {
     
         if( comidas[i].isActive() ) comidas[i].Draw();
     
     }
 
+    // Desenha os jogadores ativos/vivos
     for(int i=0; i<players.size(); i++) {
     
         if( players[i].isActive() ) players[i].Draw();
@@ -301,8 +317,11 @@ void timer(int) {
     
         if( players[i].isActive() ) {
             
+            // Calcula a colisao do jogador com as comidas e outros jogadores
             players[i].Collide(players);
             players[i].Collide(comidas);
+
+            // Move o jogador
             players[i].Move();
 
         }
@@ -311,6 +330,7 @@ void timer(int) {
 
     ticks++;
 
+    // Se o tempo tiver acabado ou houver apenas 1 jogador, finaliza a partida
     if( ticks > timeLimit || countActivePlayers() == 1 ) {
 
         ticks = 0;

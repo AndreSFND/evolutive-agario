@@ -29,21 +29,27 @@
     class Comida {
 
         private:
-            double r,g,b;
-            bool active;
+            double r,g,b; // Cor do personagem
+            bool active; // Armazena se o jogador esta vivo
 
         public:
-            double x;
-            double y;
-            double mass;
+            double x; // Posicao x
+            double y; // Posicao y
+            double mass; // Massa
 
+            // Construtor
             Comida(double _x, double _y, double _r, double _g, double _b, vector<Comida>& comidas);
 
+            // Calcula o raio do jogador com base na massa
             double Radius();
 
+            // Desenha o jogador
             void Draw();
 
+            // Verifica se o jogador esta vivo
             bool isActive();
+
+            // Define se o jogador esta vivo
             void setActive(bool active);
 
     };

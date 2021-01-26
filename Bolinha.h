@@ -31,39 +31,40 @@
     class Bolinha {
 
         private:
-            double r,g,b;
-            double horizontal;
-            double vertical;
-            bool active;
-            Comida *closestFood;
-            Bolinha *closestEnemy;
+            double r,g,b;           // Cor
+            double horizontal;      // Movimentacao horizontal
+            double vertical;        // Movimentacao vertical
+            bool active;            // Esta vivo
+            Comida *closestFood;    // Comida mais proxima
+            Bolinha *closestEnemy;  // Inimigo mais proximo
 
         public:
-            double x;
-            double y;
-            double mass;
-            RedeNeural *redeNeural;
+            double x;   // x
+            double y;   // y
+            double mass;    // massa
+            RedeNeural *redeNeural; // Rede neural
 
+            // Construtor
             Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players);
 
-            double Mass();
-            double Radius();
-            double Speed();
+            double Mass();      // Retorna a massa
+            double Radius();    // Calcula o raio com base na massa
+            double Speed();     // Calcula a velocidade com base na massa
 
-            void Draw();
-            void Move();
-            void Collide(vector<Bolinha>& players);
-            void Collide(vector<Comida>& comidas);
+            void Draw();    // Desenha
+            void Move();    // Move o jogador
+            void Collide(vector<Bolinha>& players); // Calcula a colisao com outros jogadores
+            void Collide(vector<Comida>& comidas);  // Calcula a colisao com outras comidas
 
-            double DistanceToClosestFood();
-            double AngleToClosestFood();
+            double DistanceToClosestFood(); // Calcula a distancia ate a comida mais proxima
+            double AngleToClosestFood();    // Calcula o angulo ate a comida mais proxima
 
-            double DistanceToClosestEnemy();
-            double AngleToClosestEnemy();
-            double ClosestEnemyMass();
+            double DistanceToClosestEnemy(); // Calcula a distancia ate o inimigo mais proximo
+            double AngleToClosestEnemy(); // Calcula o angulo ate o inimigo mais proximo
+            double ClosestEnemyMass(); // Retorna a massa do inimigo mais proximo
 
-            bool isActive();
-            void setActive(bool active);
+            bool isActive(); // Verifica se esta vivo
+            void setActive(bool active); // Define se esta vivo
 
     };
 

@@ -18,6 +18,7 @@
 
 using namespace std;
 
+// Desenha um poligono de n pontos
 void DrawCircle(double cx, double cy, double r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
@@ -35,6 +36,7 @@ void DrawCircle(double cx, double cy, double r, int num_segments) {
 
 }
 
+// Construtor
 Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], double _mass, double _x, double _y, double _r, double _g, double _b, double _horizontal, double _vertical, vector<Bolinha>& players) {
     
     mass = _mass;
@@ -48,6 +50,7 @@ Bolinha::Bolinha(double _axonsIn[][N_NEURONS], double _axonsOut[][N_OUTPUTS], do
     closestFood = NULL;
     closestEnemy = NULL;
 
+    // Cria a rede neural
     double _inputs[] = {0, 0, 0, 0, 0, 0};
 	double _biasNeuron = 0;
 	double _biasOutput = -0;
@@ -66,6 +69,7 @@ double Bolinha::Mass() {
 
 }
 
+// Calcula o raio com base na massa
 double Bolinha::Radius() {
 
     double radius = sqrt( mass / PI );
@@ -74,6 +78,7 @@ double Bolinha::Radius() {
 
 }
 
+// Calcula a velocidade com base na massa
 double Bolinha::Speed() {
 
     double speed = pow(Radius(), -0.439) * 2.2;
@@ -82,6 +87,7 @@ double Bolinha::Speed() {
 
 }
 
+// Desenha o poligono
 void Bolinha::Draw() {
 
     glColor3f(r, g, b);
@@ -90,6 +96,7 @@ void Bolinha::Draw() {
 
 }
 
+// Joga os inputs na rede neural e move o personagem segundo o output
 void Bolinha::Move() {
 
     double _inputs[] = { DistanceToClosestEnemy(), AngleToClosestEnemy() / 180, ClosestEnemyMass(), Mass(), DistanceToClosestFood(), AngleToClosestFood() / 180 };  
@@ -102,65 +109,6 @@ void Bolinha::Move() {
     vertical = ( _outputs[1] * 2 ) - 1;
 
     RedeNeural::structAxons playerAxons = redeNeural->getAxons();
-
-    // printf("%f %f %f %f %f %f\n", _inputs[0], _inputs[1], _inputs[2], _inputs[3], _inputs[4], _inputs[5]);
-    // for(int i=0; i<N_INPUTS; i++) 
-    //     for(int j=0; j<N_NEURONS; j++) 
-    //         printf("%f ", playerAxons.axonsIn[i][j]);
-    // printf("\n");
-    // for(int i=0; i<N_NEURONS; i++) 
-    //     for(int j=0; j<N_OUTPUTS; j++) 
-    //         printf("%f ", playerAxons.axonsOut[i][j]);
-    // printf("\n");
-    // printf("%f %f\n", _outputs[0], _outputs[1]);
-    // printf("%f %f\n", horizontal, vertical);
-
-    // if( angle == 0 ) {
-
-    //     horizontal = 1;
-    //     vertical = 0;
-
-    // } else if( angle > 0 && angle < 90 ) {
-
-    //     horizontal = 1;
-    //     vertical = 1;
-
-    // } else if( angle == 90 ) {
-
-    //     horizontal = 0;
-    //     vertical = 1;
-
-    // } else if( angle > 90 && angle < 180 ) {
-
-    //     horizontal = -1;
-    //     vertical = 1;
-
-    // } else if( angle == 180 ) {
-
-    //     horizontal = -1;
-    //     vertical = 0;
-
-    // } else if( angle > 180 && angle < 270 ) {
-
-    //     horizontal = -1;
-    //     vertical = -1;
-
-    // } else if( angle == 270 ) {
-
-    //     horizontal = 0;
-    //     vertical = -1;
-
-    // }  else if( angle > 270 && angle < 360 ) {
-
-    //     horizontal = 1;
-    //     vertical = -1;
-
-    // } else {
-
-    //     horizontal = 0;
-    //     vertical = 0;
-
-    // }
 
     // Move o personagem
     x += horizontal * Speed() / 500;
@@ -178,6 +126,8 @@ void Bolinha::Move() {
 
 }
 
+// Calcula a colisao do personagem com outros personagens
+// Define o inimigo mais proximo
 void Bolinha::Collide(vector<Bolinha>& players) {
 
     int playersLength = players.size();
@@ -228,6 +178,8 @@ void Bolinha::Collide(vector<Bolinha>& players) {
 
 }
 
+// Calcula a colisao do personagem com comidas
+// Define a comida mais proxima
 void Bolinha::Collide(vector<Comida>& comidas) {
 
     int comidasLength = comidas.size();
@@ -274,6 +226,7 @@ void Bolinha::Collide(vector<Comida>& comidas) {
 
 }
 
+// Calcula a distancia ate a comida mais proxima
 double Bolinha::DistanceToClosestFood() {
 
     if( closestFood != NULL ) {
@@ -288,6 +241,7 @@ double Bolinha::DistanceToClosestFood() {
 
 }
 
+// Calcula o angulo ate a comida mais proxima
 double Bolinha::AngleToClosestFood() {
 
     if( closestFood != NULL ) {
@@ -310,6 +264,7 @@ double Bolinha::AngleToClosestFood() {
 
 }
 
+// Calcula a distancia ate o inimigo mais proximo
 double Bolinha::DistanceToClosestEnemy() {
 
     if( closestEnemy != NULL ) {
@@ -324,6 +279,7 @@ double Bolinha::DistanceToClosestEnemy() {
 
 }
 
+// Calcula o angulo ate o inimigo mais proximo
 double Bolinha::AngleToClosestEnemy() {
 
     if( closestEnemy != NULL ) {
@@ -346,6 +302,7 @@ double Bolinha::AngleToClosestEnemy() {
 
 }
 
+// Retorna a massa do inimigo mais proximo
 double Bolinha::ClosestEnemyMass() {
 
     if( closestEnemy != NULL ) {

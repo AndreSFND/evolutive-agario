@@ -13,11 +13,12 @@
 */
 
 #include "Comida.h"
-#define CIRCLE_SEGMENTS 8
-#define MASS 0.00005
+#define CIRCLE_SEGMENTS 8   // Quantos pontos a comida tem
+#define MASS 0.00005        // Massa da comida
 
 using namespace std;
 
+// Desenha um poligono de n pontos
 void DrawCircle_(double cx, double cy, double r, int num_segments) {
 
     glBegin(GL_LINE_LOOP);
@@ -35,6 +36,7 @@ void DrawCircle_(double cx, double cy, double r, int num_segments) {
 
 }
 
+// Construtor
 Comida::Comida(double _x, double _y, double _r, double _g, double _b, vector<Comida>& comidas) {
     
     mass = MASS;
@@ -47,6 +49,7 @@ Comida::Comida(double _x, double _y, double _r, double _g, double _b, vector<Com
 
 }
 
+// Calcula o raio com base na massa
 double Comida::Radius() {
 
     double pi = 2 * acos(0.0);
@@ -56,6 +59,7 @@ double Comida::Radius() {
 
 }
 
+// Desenha o poligono
 void Comida::Draw() {
 
     glColor3f(r, g, b);
