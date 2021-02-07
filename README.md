@@ -2,7 +2,7 @@
 
 Implementação de um jogo da velha jogado entre uma pessoa e o computador
 
-[![Vídeo explicativo](http://img.youtube.com/vi/hnjac7k0mpk/0.jpg)](http://www.youtube.com/watch?v=hnjac7k0mpk "Vídeo explicativo")
+[![Vídeo explicativo](https://drive.google.com/file/d/1Jus81XXGoj_GYz7OZUwqWTmEKVcjKVan/view?usp=sharing "Execução e apresentação")
 
 Primeiramente, é necessário criar um arquivo chamado mapa.txt .
 para isso use o comando:
