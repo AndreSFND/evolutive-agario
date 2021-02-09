@@ -2,13 +2,9 @@
 
 Nomes:
         Andre Santana Fernandes - 11208537
-        
         Diogo Castanho Emídio - 11297274
-        
         Leonardo Antonetti da Motta - 11275338
-        
         Marcus Vinicius Santos Rodrigues - 11218862
-        
         Olavo Morais Borges Pereira - 11297792
 
 ## 1. Introdução
