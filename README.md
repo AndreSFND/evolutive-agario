@@ -18,9 +18,9 @@ Olavo Morais Borges Pereira - 11297792
 
 
 
-## 1.2 Sobre o jogo
+## 1.2 Sobre o projeto
 
-
+  Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, 10 unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, caso reste mais de um, o maior vence e o jogo reinicia.
 
 # 2. Descrição do Software
 
@@ -46,4 +46,4 @@ Olavo Morais Borges Pereira - 11297792
 
 # 4. Execução e Apresentação
 
-(https://drive.google.com/file/d/1oJ_MnOE8KIa1fFsZBLMB04bxLwNnA8oe/view?usp=sharing)
+https://drive.google.com/file/d/1oJ_MnOE8KIa1fFsZBLMB04bxLwNnA8oe/view?usp=sharing
