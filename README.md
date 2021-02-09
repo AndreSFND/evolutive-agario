@@ -14,7 +14,7 @@ Olavo Morais Borges Pereira - 11297792
 
 ## 1.1 Instalação
 
-
+**Aguardem...**
 
 ## 1.2 Sobre o projeto
 
@@ -30,9 +30,9 @@ Quanto ao segundo, que é o foco do trabalho, ele foi implementado de forma rela
 
 ## 2.2 Rede Neural Artificial (RNA)
 
-Uma Rede Neural Artificial (RNA) está presente em cada uma das células, e suas entradas são geradas inicialmente de forma aleatória. Entretanto, a partir da segunda geração, esses valores são calculados através do produto entre a média aritmética dos de seus pais (o vencedor e um perdedor ainda sem filho) e um valor aleatório pertencente ao intervalo [-2, 2].
+Uma Rede Neural Artificial (RNA) com ? neurônios está presente em cada uma das células. Ela foi feita de forma que suas entradas sejam geradas inicialmente de forma aleatória e suas saídas ditem para onde o indivíduo irá.
 
-Há seis _inputs_:
+Os seis _inputs_ são:
 - Distância até o inimigo mais próximo;
 - Ângulo em relação ao inimigo mais próximo;
 - Massa do inimigo mais próximo;
@@ -40,13 +40,17 @@ Há seis _inputs_:
 - Distância até a comida mais próxima;
 - Ângulo em relação à comida mais próxima.
 
+A partir da segunda geração, esses valores são calculados através do produto entre a média aritmética dos de seus pais (o vencedor e um perdedor ainda sem filho) e um valor aleatório pertencente ao intervalo [-2, 2]. É válido ainda ressaltar que o peso de cada entrada é aleatório, independentemente da geração, e que a massa da célula é diretamente proporcional ao seu raio e inversamente à sua velocidade.
+
 Os _outputs_, por sua vez, são somente dois:
 - Movimento na horizontal;
 - Movimento na vertical.
 
+A função sigmoide foi a escolhida para ser a função de ativação da RNA, uma vez que é a mais utilizada para essa função e por não haver necessidades de uma mais complexa. Portanto, os valores das saídas pertencem ao intervalo [0,1], fazendo com que o indivíduo ande para a direita, para cima ou para qualquer outro sentido compreendido entre esses dois. Por fim, é necessário destacar que a RNA implementada não possui limiar de ativação, devido à simplicidade da natureza de sua aplicação
+
 # 3. Conclusões
 
-
+**Aguardem...**
 
 # 4. Execução e Apresentação
 
