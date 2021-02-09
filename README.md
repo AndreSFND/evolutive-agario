@@ -18,25 +18,31 @@ Olavo Morais Borges Pereira - 11297792
 
 ## 1.2 Sobre o projeto
 
-<p>Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, 10 unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, caso reste mais de um, o maior vence e o jogo reinicia.</p>
+Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, dez unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, se restar somente um, esse é considerado o vencedor, senão, o de maior tamanho. O jogo reinicia em ambos os casos.
 
 # 2. Descrição do Software
 
 ## 2.1 Funcionamento do jogo
 
+O jogo possui dois conceitos de computação bioinspirada: rede neural artificial e algoritmo evolutivo. O primeiro será explorado mais profundamente na próxima seção, porém é importante pontuar que é ele que comanda o movimento de cada célula.
 
+Quanto ao segundo, que é o foco do trabalho, ele foi implementado de forma relativamente simples. Todas as gerações, com exceção da primeira, são compostas pelo vencedor da rodada anterior e seus nove descendentes, que são gerados após cruzar com cada um dos perdedores, sendo esses substituídos pelos seus filhos. Tal mecanismo é denominado elitismo.
 
 ## 2.2 Rede Neural Artificial (RNA)
 
+Uma Rede Neural Artificial (RNA) está presente em cada uma das células, e suas entradas são geradas inicialmente de forma aleatória. Entretanto, a partir da segunda geração, esses valores são calculados através do produto entre a média aritmética dos de seus pais (o vencedor e um perdedor ainda sem filho) e um valor aleatório pertencente ao intervalo [-2, 2].
 
+Há seis _inputs_:
+- Distância até o inimigo mais próximo;
+- Ângulo em relação ao inimigo mais próximo;
+- Massa do inimigo mais próximo;
+- Sua própria massa;
+- Distância até a comida mais próxima;
+- Ângulo em relação à comida mais próxima.
 
-### 2.2.1 _Inputs_
-
-
-
-### 2.2.2 _Outputs_
-
-
+Os _outputs_, por sua vez, são somente dois:
+- Movimento na horizontal;
+- Movimento na vertical.
 
 # 3. Conclusões
 
