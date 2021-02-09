@@ -1,7 +1,5 @@
 # Projeto de Sistemas Evolutivos e Aplicados à Robótica (SSC0713) - Agar.io
 
-Nomes:
-
 Andre Santana Fernandes - 11208537
 
 Diogo Castanho Emídio - 11297274
@@ -20,7 +18,7 @@ Olavo Morais Borges Pereira - 11297792
 
 ## 1.2 Sobre o projeto
 
-  Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, 10 unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, caso reste mais de um, o maior vence e o jogo reinicia.
+<p>Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, 10 unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, caso reste mais de um, o maior vence e o jogo reinicia.
 
 # 2. Descrição do Software
 
