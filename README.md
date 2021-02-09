@@ -46,7 +46,7 @@ Os _outputs_, por sua vez, são somente dois:
 - Movimento na horizontal;
 - Movimento na vertical.
 
-A função sigmoide foi a escolhida para ser a função de ativação da RNA, uma vez que é a mais utilizada para essa função e por não haver necessidades de uma mais complexa. Portanto, os valores das saídas pertencem ao intervalo [0,1], fazendo com que o indivíduo ande para a direita, para cima ou para qualquer outro sentido compreendido entre esses dois. Por fim, é necessário destacar que a RNA implementada não possui limiar de ativação, devido à simplicidade da natureza de sua aplicação
+A função sigmoide foi a escolhida para ser a função de ativação da RNA, uma vez que é a mais utilizada para essa função e por não haver necessidades de uma mais complexa. Portanto, os valores das saídas pertencem ao intervalo [0,1], fazendo com que o indivíduo ande para a direita, para cima ou para qualquer outro sentido compreendido entre esses dois. Por fim, é necessário destacar que a RNA implementada não possui limiar de ativação, devido à simplicidade da natureza de sua aplicação.
 
 # 3. Conclusões
 
