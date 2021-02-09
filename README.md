@@ -1,6 +1,7 @@
 # Projeto de Sistemas Evolutivos e Aplicados à Robótica (SSC0713) - Agar.io
 
-Nomes:	Andre Santana Fernandes - 11208537
+Nomes:
+        Andre Santana Fernandes - 11208537
         
         Diogo Castanho Emídio - 11297274
         
