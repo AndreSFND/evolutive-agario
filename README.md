@@ -22,7 +22,7 @@ Olavo Morais Borges Pereira - 11297792
 
 ## 1.2 Sobre o projeto
 
-Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, dez unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos, quanto devorando concorrentes de massa menor. Ao fim, se restar somente um, esse é considerado o vencedor, senão, o de maior tamanho. O jogo reinicia em ambos os casos.
+Inspirado no famoso jogo homônimo, esta versão não possui jogadores nem a possibilidade de a célula se dividir. São geradas aleatoriamente, em posição e comportamento, dez unidades pelo mapa, com o único objetivo de crescer. Essa meta pode ser alcançada tanto coletando pontos, que são 5 vezes mais numerosos que os indivíduos e são tratados como comida, quanto devorando concorrentes de massa menor. Ao fim, se restar somente um, esse é considerado o vencedor, senão, o de maior tamanho. O jogo reinicia em ambos os casos.
 
 # 2. Descrição do Software
 
@@ -54,7 +54,9 @@ A função sigmoide foi a escolhida para ser a função de ativação da RNA, um
 
 # 3. Conclusões
 
-**Aguardem...**
+Ao fim, o algoritmo evolutivo apresentou dois comportamentos, a depender da existência ou não de barreiras delimitando o mapa. No caso de haver, o resultado final se resumiu a todos os indivíduos desprezarem as comidas e se concentrarem em um dos cantos, sendo o vencedor, portanto, aquele que chegasse primeiro. Em contrapartida, no cenário sem limites (ou seja, uma lateral se conecta à imediatamente oposta), o comportamento foi o de ignorar os inimigos e se locomover sem parar, vencendo, assim, aquele que conseguisse mais pontos.
+
+Como se pode ver, as células priorizam caminhos diferentes para a sobrevivência e propagação de seus genes, tendo como determinante o espaço em que estão inseridas: predação quando limitadas e coleta quando virtualmente livres. Duas explicações para isso são uma possível tendência nos axônios da RNA presente nos indívuos ou alguma falha nas entradas, porém, até a entrega deste trabalho, não foi encontrada a causa.
 
 # 4. Execução e Apresentação
 
