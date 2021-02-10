@@ -16,9 +16,7 @@ Olavo Morais Borges Pereira - 11297792
 
 1. Instalar o [OpenGL](https://github.com/Brenocq/OpenGL-Tutorial);
 2. Fazer o download do projeto (através do botão _Code_);
-3. Digitar os comandos `make all` e `make run` no terminal para, respectivamente, compilar e iniciar o jogo;
-4. Observar a execução;
-5. Depois de fechar, digitar, novamente no terminal, `make clean` para limpar toda a memória alocada.
+3. Digitar o comando `make run` no terminal para compilar e iniciar o jogo.
 
 ## 1.2 Sobre o projeto
 
