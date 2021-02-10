@@ -12,9 +12,17 @@ Olavo Morais Borges Pereira - 11297792
 
 # 1. Introdução
 
-## 1.1 Instalação
+## 1.1 Como instalar
 
-**Aguardem...**
+1. Instalar o [OpenGL](https://github.com/Brenocq/OpenGL-Tutorial);
+2. Fazer o download do projeto (através do botão _Code_);
+1. Digitar os comandos `make all` e `make run` no terminal para, respectivamente, compilar e iniciar o jogo;
+4. Observar a execução;
+5. Depois de fechar, digitar, novamente no terminal, `make clean` para limpar toda a memória alocada.
+
+Texto
+
+1. Algo
 
 ## 1.2 Sobre o projeto
 
@@ -30,7 +38,7 @@ Quanto ao segundo, que é o foco do trabalho, ele foi implementado de forma rela
 
 ## 2.2 Rede Neural Artificial (RNA)
 
-Uma Rede Neural Artificial (RNA) com ? neurônios está presente em cada uma das células. Ela foi feita de forma que suas entradas sejam geradas inicialmente de forma aleatória e suas saídas ditem para onde o indivíduo irá.
+Uma Rede Neural Artificial (RNA), com quatro neurônios em uma única camada, está presente em cada uma das células. Ela foi feita de forma que suas entradas sejam geradas inicialmente de forma aleatória e suas saídas ditem para onde o indivíduo irá.
 
 Os seis _inputs_ são:
 - Distância até o inimigo mais próximo;
